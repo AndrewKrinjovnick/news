@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&family=PT+Sans+Narrow:wght@400;700&display=swap');
+
+$URL: "http://127.0.0.1:3000/";
+
+$menu-fs: 20px;
+$header-fs: 16px;
+$main-fs: 18px;
+$pagination-fs: 24px;
+
+$main-ff: 'Open Sans', sans-serif;
+
+$gray-main-color: #373737;
+
+%flex-center {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}

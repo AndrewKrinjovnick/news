@@ -1,0 +1,21 @@
+.search {
+   display: flex;
+   align-items: center;
+   
+   height: 22px;
+
+   .input {
+      border: none;
+      height: 100%;
+   }
+
+   .submit {
+      border: none;
+      background-color: #fff;
+      height: 100%;
+   }
+
+   &_image {
+      width: 20px;
+   }
+}
