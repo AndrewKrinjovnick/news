@@ -1,0 +1,12 @@
+.actual_news {
+   display: flex;
+	flex-direction: column;
+	min-height: 80vh;
+}
+
+.article {
+	flex: 1 0 auto;
+}
+.pagination {
+	flex: 0 0 auto;
+}

@@ -1,12 +1,12 @@
 import React from 'react';
 import style from './ArticleItem.module.scss';
 import Image from '../../UI/Image';
-import Pagination from '../Pagination/Pagination'
-import { logDOM } from '@testing-library/dom';
 
 let count = 0;
 
-function ArticleItem({ articles }) {
+function ArticleItem({ articles, cName = null }) {
+
+   const { article_list, articles_item, link, img, description, header, article_wrapper } = cName;
 
    if (!articles.length) {
       return (
@@ -15,25 +15,25 @@ function ArticleItem({ articles }) {
    }
 
    return (
-      <div className={style.wrapper} key={count++}>
+      <div className={article_list ? `${style.wrapper} ${article_list}` : style.wrapper} key={count++}>
          {
             articles.map(article => {
                if (!article.title || !article.description || !article.url || !article.urlToImage) {
                   return null;
                }
                return (
-                  <div className={style.article} key={count++}>
-                     <div className={style.article_wrapper}>
+                  <div className={articles_item ? articles_item : style.article} key={count++}>
+                     <div className={article_wrapper ? article_wrapper : style.article_wrapper}>
                         <a
-                           className={style.link}
+                           className={link ? link : style.link}
                            href={article.url}
                            target="_blank"
                         >
-                           <h2 className={style.header}>{article.title}</h2>
+                           <h2 className={header ? header : style.header}>{article.title}</h2>
 
-                           <Image className={style.image} src={article.urlToImage} alt="article" />
+                           <Image className={img ? img : style.image} src={article.urlToImage} alt="article" />
 
-                           <div className={style.description}>{article.description}</div>
+                           <div className={description ? description : style.description}>{article.description}</div>
                         </a>
                      </div>
                   </div>

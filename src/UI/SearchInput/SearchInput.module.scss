@@ -1,8 +1,10 @@
 .search {
-   display: flex;
-   align-items: center;
    
-   height: 22px;
+   .wrapper {
+      display: flex;
+      align-items: center;
+      height: 22px;
+   }
 
    .input {
       border: none;

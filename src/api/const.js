@@ -1,4 +1,4 @@
-export const NEWS_URL = 'https://newsapi.org/v2/everything';
+export const EVERY_NEWS = 'https://newsapi.org/v2/everything';
 
 export const LAST_NEWS = 'https://newsapi.org/v2/top-headlines';
 

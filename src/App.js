@@ -1,10 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Header from "./components/Header/Header";
 import 'normalize.css';
 import './stylesheet/global.scss';
-import Main from './components/Main/Main';
 import AppRouter from "./components/AppRouter";
 
 function App() {
@@ -13,8 +11,6 @@ function App() {
       <Router>
         <div className="wrapper">
           <AppRouter />
-          <Main />
-
         </div>
       </Router>
     </ErrorBoundary>
