@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import style from './Search.module.scss';
 import Header from '../../components/Header/Header';
-import SearchInput from '../../UI/SearchInput/SearchInput';
+import SearchArticle from '../../UI/SearchArticle/SearchArticle';
 import ArticleItem from '../../components/LastNews/ArticleItem';
 import { useFetching } from '../../hooks/useFetching'
 import { getResultSearch } from '../../api/sendRequest'
@@ -14,7 +14,7 @@ function Search() {
    const limit = 20;
    const [articles, setActicles] = useState([]);
    const searchValue = useSelector(state => state.search.search);
-   const [page, setPage] = useState(sessionStorage.getItem('page') ? sessionStorage.getItem('page') : 1);
+   const [page, setPage] = useState(sessionStorage.getItem('pageSearch') ? sessionStorage.getItem('page') : 1);
    const [totalPages, setTotalPages] = useState();
    const [getArticles, isArcticlesLoading, errorArticles] = useFetching(async () => {
       const listActicles = await getResultSearch(searchValue, page, limit);
@@ -26,6 +26,7 @@ function Search() {
    useEffect(() => {
       if (searchValue) {
          getArticles()
+         sessionStorage.setItem('pageSearch', page);
       }
 
    }, [searchValue, page])
@@ -41,7 +42,7 @@ function Search() {
    return (
       <>
          <Header />
-         <SearchInput cName={
+         <SearchArticle cName={
             {
                search: style.search,
                input: style.input,
@@ -62,30 +63,30 @@ function Search() {
                            <Loader />
                         </div>
                         :
-                        (<><ArticleItem
-                           cName={
+                        (
+                           <>
+                              <ArticleItem
+                                 cName={
+                                    {
+                                       img: style.img,
+                                       article_list: style.article_list,
+                                       articles_item: style.article_item,
+                                       header: style.header,
+                                       link: style.link,
+                                       description: style.description,
+                                       article_wrapper: style.article_wrapper
+                                    }
+                                 }
+                                 articles={[]}
+                              />
                               {
-                                 img: style.img,
-                                 article_list: style.article_list,
-                                 articles_item: style.article_item,
-                                 header: style.header,
-                                 link: style.link,
-                                 description: style.description,
-                                 article_wrapper: style.article_wrapper
+                                 articles.length
+                                    ? <Pagination cName={style.pagination} setPage={setPage} totalPages={totalPages} numberPage={+page} />
+                                    : null
                               }
-                           }
-                           articles={articles}
-                        />
-                           {
-                              articles.length
-                                 ? <Pagination cName={style.pagination} setPage={setPage} totalPages={totalPages} numberPage={+page} />
-                                 : null
-                           }
-                        </>
+                           </>
                         )
                   }
-
-
                </div>
             </div>
          </main>

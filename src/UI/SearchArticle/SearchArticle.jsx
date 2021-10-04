@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import style from './SearchInput.module.scss';
+import style from './SearchArticle.module.scss';
 import Image from '../Image';
 import { getSearchInput } from '../../store/actions'
 
@@ -48,7 +48,7 @@ function SearchInput({ cName, initialValue }) {
             <input
                className={input ? `${input} ${style.input}` : style.input}
                value={searchValue}
-               placeholder="Поиск..."
+               placeholder="Поиск новостей..."
                onChange={getSearchValue}
                onKeyDown={scan}
                autoFocus={history.location.pathname === '/search' ? true : false}

@@ -1,0 +1,60 @@
+.weather_content {
+   width: 900px;
+   margin: 50px auto 0;
+
+   .tabs {
+      display: flex;
+
+      &.tab1 .tab_item_1, &.tab2 .tab_item_2,
+      &.tab3 .tab_item_3, &.tab4 .tab_item_4{
+         z-index: 10;
+         background-color: #fff;
+         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      &.tab1 .tab_item_1::after,
+      &.tab2 .tab_item_2::after,
+      &.tab3 .tab_item_3::after,
+      &.tab4 .tab_item_4::after {
+         display: block;
+         content: "";
+         position: absolute;
+         background-color: #fff;
+         bottom: -13px;
+         height: 20px;
+         width: 100%;
+      }
+
+      .tab_item {
+         min-height: 120px;
+         flex-grow: 1;
+         text-align: center;
+         position: relative;
+         z-index: 1;
+         border: 1px solid rgb(202, 202, 202);
+         border-bottom: none;
+         background-color: rgb(209, 209, 209);
+         margin-bottom: -1px;
+         border-top-left-radius: 20px;
+         border-top-right-radius: 20px;
+         cursor: pointer;
+
+         .tab_temp {
+            display: flex;
+            justify-content: center;
+         }
+      }
+   }
+
+   .content {
+      position: relative;
+      z-index: 3;
+      min-height: 400px;
+      width: 100%;
+      padding: 20px 0;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgb(202, 202, 202);
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+   }
+}

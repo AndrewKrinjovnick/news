@@ -53,8 +53,7 @@ function MainPage() {
                                  article_list: style.article
                               }
                            }
-                           articles={articles}
-
+                           articles={[]}
                         />
                         {
                            articles.length

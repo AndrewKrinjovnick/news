@@ -3,7 +3,7 @@ import style from './Header.module.scss';
 import Image from '../../UI/Image';
 import Menu from './Menu/Menu';
 import { Link } from 'react-router-dom'
-import SearchInput from '../../UI/SearchInput/SearchInput'
+import SearchArticle from '../../UI/SearchArticle/SearchArticle'
 
 function Header({ isSearchOpen }) {
    return (
@@ -16,7 +16,7 @@ function Header({ isSearchOpen }) {
                <Menu isSearchOpen={isSearchOpen} />
                {
                   isSearchOpen
-                     ? <SearchInput />
+                     ? <SearchArticle />
                      : null
                }
 
