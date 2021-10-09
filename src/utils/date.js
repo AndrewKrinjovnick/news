@@ -1,19 +1,20 @@
 export const getDayName = (numDay) => {
    switch (numDay) {
       case 0:
-         return 'Вс';
+         return 'Воскресенье';
       case 1:
-         return 'Пн'
+         return 'Понедельник'
       case 2:
-         return 'Вт';
+         return 'Вторник';
       case 3:
-         return 'Ср'
+         return 'Среда'
       case 4:
-         return 'Чт';
+         return 'Четверг';
       case 5:
-         return 'Пт'
+         return 'Пятница'
       case 6:
-         return 'Сб';
+         return 'Суббота';
+      default: return;
    }
 }
 

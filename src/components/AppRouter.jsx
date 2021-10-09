@@ -1,8 +1,8 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom';
 import MainPage from '../Pages/MainPage/MainPage';
-import Weather from '../Pages/Weather/Weather';
-import Search from '../Pages/Search/Search';
+import WeatherPage from '../Pages/WeatherPage/WeatherPage';
+import SearchPage from '../Pages/SearchPage/SearchPage';
 
 function AppRouter() {
    return (
@@ -11,11 +11,11 @@ function AppRouter() {
             <div>about</div>
          </Route>
          <Route exact path="/search">
-            <Search />
+            <SearchPage />
          </Route>
 
          <Route exact path="/weather">
-            <Weather />
+            <WeatherPage />
          </Route>
          <Route exact path="/">
             <MainPage />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import style from './Search.module.scss';
+import { useSelector } from 'react-redux';
+import style from './SearchPage.module.scss';
 import Header from '../../components/Header/Header';
 import SearchArticle from '../../UI/SearchArticle/SearchArticle';
 import ArticleItem from '../../components/LastNews/ArticleItem';
@@ -28,7 +28,6 @@ function Search() {
          getArticles()
          sessionStorage.setItem('pageSearch', page);
       }
-
    }, [searchValue, page])
 
    if (errorArticles) {

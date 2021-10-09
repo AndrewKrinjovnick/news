@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from './MainPage.module.scss';
 import { lastNewsUa } from '../../api/sendRequest';
 import ArticleItem from '../../components/LastNews/ArticleItem';
@@ -29,13 +29,12 @@ function MainPage() {
    if (errorArticles) {
       return (
          <div className="container">
-            <h2>Не вдалося завантажити дані, помилка "{errorArticles}"</h2>
+            <h2>Не удалось загрузить данные.{errorArticles}"</h2>
          </div>
       )
    }
 
    return (
-
       <>
          <Header isSearchOpen />
          <main className="main">
@@ -53,7 +52,7 @@ function MainPage() {
                                  article_list: style.article
                               }
                            }
-                           articles={[]}
+                           articles={articles}
                         />
                         {
                            articles.length
@@ -65,7 +64,6 @@ function MainPage() {
             </div>
          </main>
       </>
-
    )
 }
 
