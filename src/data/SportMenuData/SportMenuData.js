@@ -1,0 +1,1 @@
+export const menuNames = ['Home', 'Football', 'Basketball', 'Tennis', 'Golf', 'Cricket'];

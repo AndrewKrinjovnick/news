@@ -1,11 +1,13 @@
 import { EVERY_NEWS, LAST_NEWS, ApiKeyNews, FORECAST, ApiKeyWeather } from './const';
 import axios from 'axios';
 
+const AnotherKey = '08c83fcfaf7e4176b0d5d40717759ed2';
+
 export const lastNewsUa = async function (page, limit) {
    const response = await axios.get(LAST_NEWS, {
       params: {
          apiKey: ApiKeyNews,
-         country: 'ua',
+         country: 'us',
          pageSize: limit,
          page: page
       }
@@ -33,8 +35,7 @@ export const getResultWeather = async function (query) {
          key: ApiKeyWeather,
          q: query,
          days: 10,
-         lang: 'ru',
-         q: query
+         lang: 'en',
       }
    })
 

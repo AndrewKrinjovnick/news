@@ -20,7 +20,7 @@ function Image({ className = '', src, alt, circle }) {
 Image.propTypes = {
    className: PropTypes.string,
    src: PropTypes.string.isRequired,
-   alt: PropTypes.string,
+   alt: PropTypes.string.isRequired,
 }
 
 export default Image

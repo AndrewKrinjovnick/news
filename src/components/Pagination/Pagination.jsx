@@ -10,6 +10,7 @@ Pagination.propTypes = {
 }
 
 function Pagination({ setPage, totalPages, numberPage, cName }) {
+   console.log(numberPage, totalPages)
    const pages = [];
    let counter = 0;
    const countPages = 9;

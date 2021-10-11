@@ -1,38 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import style from './MainPage.module.scss';
 import { lastNewsUa } from '../../api/sendRequest';
 import ArticleItem from '../../components/LastNews/ArticleItem';
 import Loader from '../../UI/Loader/Loader';
 import { useFetching } from '../../hooks/useFetching'
 import { countPages } from '../../utils/page';
-import Pagination from '../../components/Pagination/Pagination';
 import Header from '../../components/Header/Header'
+import { useObserver } from '../../hooks/useObserver'
+
+const LIMIT = 18;
 
 function MainPage() {
-   const limit = 21;
-
+   const lastElem = useRef();
    const [articles, setActicles] = useState([]);
-   const [page, setPage] = useState(sessionStorage.getItem('page') ? sessionStorage.getItem('page') : 1);
+   const [page, setPage] = useState(1);
    const [totalPages, setTotalPages] = useState();
    const [getArticles, isArcticlesLoading, errorArticles] = useFetching(async () => {
-      const listActicles = await lastNewsUa(page, limit);
-      setActicles(listActicles.articles);
+      const listActicles = await lastNewsUa(page, LIMIT);
+      setActicles([...articles, ...listActicles.articles]);
       const searchResults = listActicles.totalResults;
-      setTotalPages(countPages(searchResults, limit));
+      setTotalPages(countPages(searchResults, LIMIT));
    });
+
+   useObserver(() => setPage(page + 1), lastElem, isArcticlesLoading, page < totalPages)
 
    useEffect(() => {
       getArticles();
-      sessionStorage.setItem('page', page)
    }, [page])
-
-   if (errorArticles) {
-      return (
-         <div className="container">
-            <h2>Не удалось загрузить данные.{errorArticles}"</h2>
-         </div>
-      )
-   }
 
    return (
       <>
@@ -40,9 +34,10 @@ function MainPage() {
          <main className="main">
             <div className="container">
                {
-                  isArcticlesLoading ?
-                     <div className="flex-wrapper">
-                        <Loader />
+                  errorArticles
+                     ?
+                     <div className="container">
+                        <h2>Не удалось загрузить данные. {errorArticles}"</h2>
                      </div>
                      :
                      <div className={style.actual_news}>
@@ -54,13 +49,24 @@ function MainPage() {
                            }
                            articles={articles}
                         />
-                        {
-                           articles.length
-                              ? <Pagination cName={style.pagination} setPage={setPage} totalPages={totalPages} numberPage={+page} />
-                              : null
-                        }
                      </div>
                }
+
+               {
+                  isArcticlesLoading
+                     ?
+                     <div className="flex-wrapper">
+                        <Loader />
+                     </div>
+                     :
+                     articles.length
+                        ?
+                        null
+                        :
+                        <h2>Нет новостей</h2>
+               }
+
+               <div className={style.last_element} ref={lastElem}></div>
             </div>
          </main>
       </>

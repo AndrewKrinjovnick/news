@@ -7,7 +7,7 @@ import Image from '../Image';
 import { getSearchInput } from '../../store/actions'
 
 SearchInput.propTypes = {
-   cName: PropTypes.objectOf(PropTypes.string)
+   cName: PropTypes.objectOf(PropTypes.string),
 }
 
 SearchInput.defaultProps = {
@@ -15,7 +15,7 @@ SearchInput.defaultProps = {
 }
 
 
-function SearchInput({ cName, initialValue }) {
+function SearchInput({ cName, initialValue, prompt }) {
    const { search, input, submit, img, wrapper } = cName;
    const [searchValue, setSearchValue] = useState(initialValue || '');
    const dispatch = useDispatch();
@@ -48,7 +48,7 @@ function SearchInput({ cName, initialValue }) {
             <input
                className={input ? `${input} ${style.input}` : style.input}
                value={searchValue}
-               placeholder="Поиск новостей..."
+               placeholder={prompt || 'Search...'}
                onChange={getSearchValue}
                onKeyDown={scan}
                autoFocus={history.location.pathname === '/search' ? true : false}
@@ -56,7 +56,7 @@ function SearchInput({ cName, initialValue }) {
 
             </input>
             <button className={submit ? `${submit} ${style.submit}` : style.submit} onClick={btnClick}>
-               <Image className={img ? `${img} ${style.search_image}` : style.search_image} src={"./images/search.png"} />
+               <img className={img ? `${img} ${style.search_image}` : style.search_image} src={"images/search.png"} />
             </button>
          </div>
       </div>

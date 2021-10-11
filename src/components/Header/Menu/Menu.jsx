@@ -7,13 +7,13 @@ function Menu() {
       <nav className={style.menu}>
          <ul className={style.list}>
             <li className={style.list__item}>
-               <NavLink className={style.link} to='/sport'>
-                  Спорт
+               <NavLink className={style.link} to='/sport/home'>
+                  Sport
                </NavLink>
             </li>
             <li className={style.list__item}>
                <NavLink className={style.link} to='/weather'>
-                  Погода
+                  Weather
                </NavLink>
             </li>
             <li className={style.list__item}>

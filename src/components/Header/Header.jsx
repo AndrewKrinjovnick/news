@@ -5,21 +5,20 @@ import Menu from './Menu/Menu';
 import { Link } from 'react-router-dom'
 import SearchArticle from '../../UI/SearchArticle/SearchArticle'
 
-function Header({ isSearchOpen }) {
+function Header({ isSearchOpen = false }) {
    return (
       <header className={style.header}>
          <div className="container">
             <div className={style.header__wrapper}>
                <Link to='/'>
-                  <Image className="logo" src="/images/logo.png" alt="logo" />
+                  <Image className="logo" src="/images/logo_news.png" alt="logo" />
                </Link>
                <Menu isSearchOpen={isSearchOpen} />
                {
                   isSearchOpen
-                     ? <SearchArticle />
+                     ? <SearchArticle prompt={'Search news...'} />
                      : null
                }
-
             </div>
          </div>
       </header>

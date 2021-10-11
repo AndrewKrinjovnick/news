@@ -10,17 +10,19 @@ import { countPages } from '../../utils/page'
 import Loader from '../../UI/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination'
 
+const LIMIT = 20;
+
 function Search() {
-   const limit = 20;
+
    const [articles, setActicles] = useState([]);
    const searchValue = useSelector(state => state.search.search);
    const [page, setPage] = useState(sessionStorage.getItem('pageSearch') ? sessionStorage.getItem('page') : 1);
    const [totalPages, setTotalPages] = useState();
    const [getArticles, isArcticlesLoading, errorArticles] = useFetching(async () => {
-      const listActicles = await getResultSearch(searchValue, page, limit);
+      const listActicles = await getResultSearch(searchValue, page, LIMIT);
       setActicles(listActicles.articles);
       const searchResults = listActicles.totalResults;
-      setTotalPages(countPages(searchResults, limit));
+      setTotalPages(countPages(searchResults, LIMIT));
    });
 
    useEffect(() => {
@@ -62,29 +64,28 @@ function Search() {
                            <Loader />
                         </div>
                         :
-                        (
-                           <>
-                              <ArticleItem
-                                 cName={
-                                    {
-                                       img: style.img,
-                                       article_list: style.article_list,
-                                       articles_item: style.article_item,
-                                       header: style.header,
-                                       link: style.link,
-                                       description: style.description,
-                                       article_wrapper: style.article_wrapper
+                        articles.length
+                           ?
+                           (
+                              <>
+                                 <ArticleItem
+                                    cName={
+                                       {
+                                          img: style.img,
+                                          article_list: style.article_list,
+                                          articles_item: style.article_item,
+                                          header: style.header,
+                                          link: style.link,
+                                          description: style.description,
+                                          article_wrapper: style.article_wrapper
+                                       }
                                     }
-                                 }
-                                 articles={[]}
-                              />
-                              {
-                                 articles.length
-                                    ? <Pagination cName={style.pagination} setPage={setPage} totalPages={totalPages} numberPage={+page} />
-                                    : null
-                              }
-                           </>
-                        )
+                                    articles={articles}
+                                 />
+                                 <Pagination cName={style.pagination} setPage={setPage} totalPages={totalPages} numberPage={+page} />
+                              </>
+                           )
+                           : null
                   }
                </div>
             </div>
