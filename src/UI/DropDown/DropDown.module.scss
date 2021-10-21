@@ -1,0 +1,64 @@
+@import '../../stylesheet/const';
+
+.wrapper {
+    color: $gray-main-color;
+    width: 160px;
+    display: inline-block;
+    max-height: 150px;
+    cursor: pointer;
+    position: relative;
+    z-index: 11;
+}
+
+.header {
+    padding: 5px 40px 5px 5px;
+    border: 1px solid rgb(146, 146, 146);
+    position: relative;
+    background-color: #fff;
+    width: 100%;
+
+    &::after {
+        content: ''; 
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-25%);
+        border: 5px solid transparent; 
+        border-top: 5px solid rgb(100, 100, 100);
+    }
+
+    &.active::after{
+        top: 30%;
+        border: 5px solid transparent; 
+        border-bottom: 5px solid rgb(100, 100, 100);
+    }
+}
+
+.body {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+
+    .option {
+        display: inline-block;
+        width: 100%;
+        padding: 5px;
+        border: 1px solid rgb(189, 189, 189);
+        width: 100%;
+        margin-top: -1px;
+        background-color: #fff;
+
+        &.active, &.active:hover {
+            background-color: rgb(143, 143, 143);
+            border: 1px solid rgb(143, 143, 143);
+        }
+        
+        &:hover {
+            background-color: rgb(223, 130, 130);
+            border: 1px solid rgb(223, 130, 130);
+        }
+    }
+
+}

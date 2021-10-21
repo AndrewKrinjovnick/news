@@ -7,7 +7,7 @@
 
 .article {
    flex-basis: 33.33%;
-   
+   overflow: hidden;
 
    &_wrapper {
       padding: 10px;
@@ -35,5 +35,18 @@
          text-decoration: underline;
       }
 
+   }
+}
+
+.time{
+   display: flex;
+   align-items: center;
+
+   &_img {
+      width: 20px;
+   }
+
+   &_passed {
+      font-size: 14px;
    }
 }

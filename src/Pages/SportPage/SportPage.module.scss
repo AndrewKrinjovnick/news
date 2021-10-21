@@ -30,6 +30,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      position: relative;
+
    }
 
    .menu_list {
@@ -51,6 +53,17 @@
             left: 0;
             top: 50%;
             transform: translateY(-50%);
+         }
+
+         &:hover::after, &.active::after {
+            content: '';
+            position: absolute;
+            width: 70%;
+            height: 4px;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgb(0, 0, 0);
          }
       }
    }
@@ -102,5 +115,88 @@
       &::after {
          bottom: 0;
       }
+   }
+}
+
+.news {
+   position: relative;
+
+   .close_menu {
+      position: absolute;
+      background-color: rgb(49, 16, 16);
+      top: 0;
+      width: 100%;
+      z-index: 88;
+      display: none;
+
+      &.active {
+         display: block;
+      }
+
+      .menu_list_close {
+         display: flex;
+         flex-direction: column;
+         flex-wrap: wrap;
+         height: 200px;
+         width: 100%;
+         color: white;
+   
+         &_item {
+            margin: 0 5px;
+            padding: 10px;
+            cursor: pointer;
+
+            &:hover {
+               background-color: rgb(146, 146, 146);
+            }
+         }
+      }
+   }
+
+   .header_name_sport {
+      font-size: $section_header-fs;
+      margin: 0;
+      padding: 30px 0 15px;
+      color: $gray-main-color;
+   }
+}
+
+.article_list {
+   width: 100%;
+   overflow: hidden;
+
+   .article {
+      width: 100%;
+   }
+
+   .link {
+      text-decoration: none;
+      color: $gray-main-color;
+   }
+
+   .link_header:hover {
+      text-decoration: underline;
+   }
+
+   .main_article_description {
+      line-height: 30px;
+      margin-top: 5px;
+   }
+}
+
+.pagination {
+   margin-top: 30px;
+}
+
+.drop_down {
+   display: flex;
+   align-items: center;
+   margin-top: 20px;
+
+   .filter {
+      font-weight: 700;
+      margin-right: 10px;
+      color: $gray-main-color;
+      font-size: $header-fs;
    }
 }

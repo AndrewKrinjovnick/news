@@ -9,7 +9,7 @@ import SearchInput from '../../UI/SearchInput/SearchInput';
 import Image from '../../UI/Image';
 
 function WeatherPage() {
-   const [searchWeather, setSearchWeather] = useState('Киев');
+   const [searchWeather, setSearchWeather] = useState('Kiev');
    const [tab, setTab] = useState('tab0');
    const [currentCityWeather, setCurrentCityWeather] = useState([]);
    const [getWeather, isLoading, errorFetch] = useFetching(async () => {
@@ -26,9 +26,9 @@ function WeatherPage() {
          <Header isSearchOpen />
          <main className={`main`}>
             <div className="container">
-               <h2 className={style.header}>Погода Украины</h2>
-               <div className={style.current_city}>{searchWeather[0].toUpperCase() + searchWeather.toLowerCase().slice(1)}, прогноз погоды</div>
-               <SearchInput startValue={'Киев'} search={setSearchWeather} />
+               <h2 className={style.header}>Weather</h2>
+               <div className={style.current_city}>{searchWeather[0].toUpperCase() + searchWeather.toLowerCase().slice(1)}, weather forecast</div>
+               <SearchInput startValue={'Kiev'} search={setSearchWeather} />
                {
                   isLoading
                      ?
@@ -39,8 +39,8 @@ function WeatherPage() {
                      errorFetch
                         ?
                         <div className={style.error}>
-                           <h3>Не удалось найти прогноз по вашему запросу</h3>
-                           <Image src={'./images/map.jpg'} alt="карта" />
+                           <h3>Could not find a forecast for your request</h3>
+                           <Image src={'/images/map.jpg'} alt="map" />
                         </div>
                         :
                         <WeatherContent forecastWeather={currentCityWeather} tab={tab} tabEvent={setTab} />

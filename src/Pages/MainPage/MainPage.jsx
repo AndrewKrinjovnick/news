@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import style from './MainPage.module.scss';
 import { lastNewsUa } from '../../api/sendRequest';
-import ArticleItem from '../../components/LastNews/ArticleItem';
+import ArticlesList from '../../components/ArticlesList/ArticlesList';
 import Loader from '../../UI/Loader/Loader';
 import { useFetching } from '../../hooks/useFetching'
 import { countPages } from '../../utils/page';
@@ -41,7 +41,7 @@ function MainPage() {
                      </div>
                      :
                      <div className={style.actual_news}>
-                        <ArticleItem
+                        <ArticlesList
                            cName={
                               {
                                  article_list: style.article

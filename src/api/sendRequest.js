@@ -16,13 +16,26 @@ export const lastNewsUa = async function (page, limit) {
    return response.data;
 }
 
-export const getResultSearch = async function (query, page, limit) {
+export const getResultSearch = async function (query, page, limit, sortBy = "publishedAt") {
    const response = await axios.get(EVERY_NEWS, {
       params: {
          apiKey: ApiKeyNews,
          q: query,
          pageSize: limit,
-         page: page
+         page: page,
+         sortBy
+      }
+   })
+
+   return response.data;
+}
+
+export const getTopArticle = async function (query) {
+   const response = await axios.get(LAST_NEWS, {
+      params: {
+         apiKey: ApiKeyNews,
+         q: query,
+         pageSize: 1
       }
    })
 

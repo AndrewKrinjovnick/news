@@ -12,7 +12,7 @@ function AppRouter() {
             <SportPage />
          </Route>
 
-         <Route exact path="/search">
+         <Route exact path="/search/">
             <SearchPage />
          </Route>
 

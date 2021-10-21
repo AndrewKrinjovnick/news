@@ -1,14 +1,11 @@
 
-
 .header {
    background-color: rgb(92, 92, 92);
-   // background: url("../../assets/header_bg.jpg");
    
    &__wrapper {
       display: flex;
       align-items: center;
       justify-content: space-between;
       height: 100%;
-      padding: 10px 0px;
    }
 }

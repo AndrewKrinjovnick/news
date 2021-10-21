@@ -5,8 +5,10 @@
 
       &__item {
          display: inline-block;
-         margin: 5px;
          
+         &:hover {
+            background-color: rgb(68, 68, 68);
+         }
       }
 
       .link {
@@ -14,6 +16,12 @@
          text-decoration: none;
          font-size: $menu-fs;
          font-weight: 500;
+         display: block;
+         padding: 10px;
       }
+   }
+
+   .selected {
+      background-color: rgb(68, 68, 68);
    }
 }

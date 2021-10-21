@@ -1,0 +1,69 @@
+@import '../../stylesheet/const';
+
+.tooltip_wrapper {
+    position: relative;
+
+    .left, .right {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .top, .bottom {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+.tooltip {
+    position: absolute;
+    padding: 10px;
+    background-color: rgb(243, 93, 93);
+    border-radius: 5px;
+    z-index: 55;
+    box-shadow: 0 0 3px red;
+
+    &_body {
+        font-size: $header-fs;
+        font-weight: 500;
+        color: rgb(26, 26, 26);
+    }
+
+    .triangle {
+        position: absolute;
+        border: 10px solid transparent;
+    }
+
+    .left-direction, .right-direction {
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .top-direction, .bottom-direction {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .right-direction {
+        right: -20px;
+        border-left: 10px solid rgb(243, 93, 93);
+    }
+
+    .left-direction {
+        left: -20px;
+        border-right: 10px solid rgb(243, 93, 93);
+    }
+
+    .top-direction {
+        top: -20px;
+        border-bottom: 10px solid rgb(243, 93, 93);
+    }
+
+    .bottom-direction {
+        bottom: -20px;
+        border-top: 10px solid rgb(243, 93, 93);
+    }
+}
+
+
+
+

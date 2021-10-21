@@ -1,14 +1,12 @@
-import React from 'react'
+import { Component } from 'react'
 import ReactDOM from 'react-dom'
 
-class MyPortal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.el = document.createElement('div')
-    }
+class MyPortal extends Component {
+    el = document.createElement('div');
+
 
     componentDidMount() {
-        document.body.append(this.el)
+        document.body.appendChild(this.el)
     }
 
     componentWillUnmount() {

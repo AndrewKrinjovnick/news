@@ -7,17 +7,29 @@ function Menu() {
       <nav className={style.menu}>
          <ul className={style.list}>
             <li className={style.list__item}>
-               <NavLink className={style.link} to='/sport/home'>
+               <NavLink
+                  activeClassName={style.selected}
+                  className={style.link}
+                  to='/sport/home'
+               >
                   Sport
                </NavLink>
             </li>
             <li className={style.list__item}>
-               <NavLink className={style.link} to='/weather'>
+               <NavLink
+                  activeClassName={style.selected}
+                  className={style.link}
+                  to='/weather'
+               >
                   Weather
                </NavLink>
             </li>
             <li className={style.list__item}>
-               <NavLink className={style.link} to='/covid'>
+               <NavLink
+                  activeClassName={style.selected}
+                  className={style.link}
+                  to='/covid'
+               >
                   Covid
                </NavLink>
             </li>

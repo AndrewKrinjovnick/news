@@ -1,15 +1,16 @@
 import React from 'react';
-import style from './ArticleItem.module.scss';
+import PropTypes from 'prop-types'
+import style from './ArticlesList.module.scss';
 import Image from '../../UI/Image';
+import { timeHasPassed } from '../../utils/date'
 
 let count = 0;
 
-function ArticleItem({ articles, cName = null }) {
-
+function Articles({ articles, cName = {}, isTimeOpen = false }) {
    const { article_list, articles_item, link, img, description, header, article_wrapper } = cName;
 
    return (
-      <div className={article_list ? `${style.wrapper} ${article_list}` : style.wrapper} key={count++}>
+      <div className={article_list ? `${article_list}` : style.wrapper} key={count++}>
          {
             articles.map(article => {
                if (!article.title || !article.description || !article.url || !article.urlToImage) {
@@ -29,6 +30,16 @@ function ArticleItem({ articles, cName = null }) {
                            <Image className={img ? img : style.image} src={article.urlToImage} alt="article" />
 
                            <div className={description ? description : style.description}>{article.description}</div>
+                           {
+                              isTimeOpen
+                                 ?
+                                 <div className={style.time}>
+                                    <Image className={style.time_img} src="/images/time.png" alt="time" />
+                                    <p className={style.time_passed}>{timeHasPassed(Date.now() - new Date(article.publishedAt).getTime())}</p>
+                                 </div>
+                                 :
+                                 null
+                           }
                         </a>
                      </div>
                   </div>
@@ -40,5 +51,9 @@ function ArticleItem({ articles, cName = null }) {
    )
 }
 
-export default ArticleItem
+Articles.propTypes = {
+   cName: PropTypes.objectOf(PropTypes.string)
+}
+
+export default Articles
 

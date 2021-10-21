@@ -1,37 +1,35 @@
-import React, { memo } from 'react'
+import React, { memo } from 'react';
+import { useHistory } from 'react-router';
 import style from './Pagination.module.scss';
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux';
+import { pageDecrement, pageIncrement, setNumberPage } from '../../store/actions';
 
-Pagination.propTypes = {
-   cName: PropTypes.string,
-   setPage: PropTypes.func.isRequired,
-   totalPages: PropTypes.number.isRequired,
-   numberPage: PropTypes.number.isRequired
-}
+const COUNTER_PAGE = 9;
 
-function Pagination({ setPage, totalPages, numberPage, cName }) {
-   console.log(numberPage, totalPages)
+function Pagination({ totalPages, numberPage, cName }) {
    const pages = [];
+   const history = useHistory();
    let counter = 0;
-   const countPages = 9;
+   const dispatch = useDispatch();
 
    for (let i = 1; i <= totalPages; i++) {
-      if (totalPages > countPages) {
+      if (totalPages > COUNTER_PAGE) {
 
-         if (numberPage <= ((countPages / 2) + 0.5)) {
+         if (numberPage <= ((COUNTER_PAGE / 2) + 0.5)) {
 
-            if (i > countPages - 1 && i !== totalPages) {
+            if (i > COUNTER_PAGE - 1 && i !== totalPages) {
                continue;
             }
          }
 
-         else if (totalPages - (countPages - 1) < numberPage) {
-            if (i !== 1 && totalPages - (countPages - 1) >= i) {
+         else if (totalPages - (COUNTER_PAGE - 1) < numberPage) {
+            if (i !== 1 && totalPages - (COUNTER_PAGE - 1) >= i) {
                continue;
             }
          }
          else {
-            if ((i !== 1 && numberPage - ((countPages - 3) / 2) > i) || (numberPage + ((countPages - 3) / 2) < i && i !== totalPages)) {
+            if ((i !== 1 && numberPage - ((COUNTER_PAGE - 3) / 2) > i) || (numberPage + ((COUNTER_PAGE - 3) / 2) < i && i !== totalPages)) {
                continue;
             }
          }
@@ -41,17 +39,17 @@ function Pagination({ setPage, totalPages, numberPage, cName }) {
          <li
             className={i === numberPage ? `${style.list_item} ${style.active}` : style.list_item}
             key={i}
-            onClick={() => setPage(i)}>
+            onClick={() => dispatch(setNumberPage(i))}>
             {i}
          </li>
       )
    }
 
    return (
-      <ul className={`${style.list} ${cName}`}>
+      <ul className={cName ? `${style.list} ${cName}` : style.list}>
          <li
             className={numberPage === 1 ? `${style.prev} ${style.btn} ${style.hidden}` : `${style.prev} ${style.btn}`}
-            onClick={() => setPage(preState => preState - 1)}
+            onClick={() => dispatch(pageDecrement())}
          >
             <span>
                &#8249;
@@ -62,7 +60,7 @@ function Pagination({ setPage, totalPages, numberPage, cName }) {
 
          <li
             className={numberPage === totalPages ? `${style.next} ${style.btn} ${style.hidden}` : `${style.next} ${style.btn}`}
-            onClick={() => setPage(preState => preState + 1)}
+            onClick={() => dispatch(pageIncrement())}
          >
             <span>
                &#8250;
@@ -70,6 +68,12 @@ function Pagination({ setPage, totalPages, numberPage, cName }) {
          </li>
       </ul>
    )
+}
+
+Pagination.propTypes = {
+   cName: PropTypes.string,
+   totalPages: PropTypes.number.isRequired,
+   numberPage: PropTypes.number.isRequired
 }
 
 export default memo(Pagination)

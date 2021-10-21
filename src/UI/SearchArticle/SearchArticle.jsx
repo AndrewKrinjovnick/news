@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from "react-router-dom";
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,9 @@ SearchInput.defaultProps = {
 
 
 function SearchInput({ cName, initialValue, prompt }) {
+   let timeout;
    const { search, input, submit, img, wrapper } = cName;
+   const searchBlock = useRef();
    const [searchValue, setSearchValue] = useState(initialValue || '');
    const dispatch = useDispatch();
 
@@ -26,25 +28,58 @@ function SearchInput({ cName, initialValue, prompt }) {
       setSearchValue(e.target.value);
    }
 
+   useEffect(() => {
+      return () => {
+         clearTimeout(timeout);
+      }
+   }, [])
+
    const scan = (e) => {
       if (e.key === 'Enter') {
+         if (searchValue.trim()) {
+
+            dispatch(getSearchInput(searchValue))
+            if (history.location.pathname !== '/search') {
+               history.push('/search');
+            }
+         }
+         else {
+            if (searchBlock.current) {
+               setSearchValue('');
+               searchBlock.current.style.outline = '2px solid red'
+               timeout = setTimeout(() => {
+                  searchBlock.current.style.outline = 'none'
+               }, 1000)
+            }
+         }
+      }
+
+   }
+
+   const btnClick = (e) => {
+      if (searchValue.trim()) {
          dispatch(getSearchInput(searchValue))
          if (history.location.pathname !== '/search') {
             history.push('/search');
          }
       }
-   }
-
-   const btnClick = () => {
-      dispatch(getSearchInput(searchValue))
-      if (history.location.pathname !== '/search') {
-         history.push('/search');
+      else {
+         if (searchBlock.current) {
+            setSearchValue('');
+            searchBlock.current.style.outline = '2px solid red'
+            timeout = setTimeout(() => {
+               searchBlock.current.style.outline = 'none'
+            }, 1000)
+         }
       }
    }
 
    return (
-      <div className={search ? `${search} ${style.search}` : style.search}>
-         <div className={wrapper ? `${style.wrapper} ${wrapper}` : style.wrapper}>
+      <div className={search ? `${search} ${style.search}` : style.search} >
+         <div
+            className={wrapper ? `${style.wrapper} ${wrapper}` : style.wrapper}
+            ref={searchBlock}
+         >
             <input
                className={input ? `${input} ${style.input}` : style.input}
                value={searchValue}
@@ -56,7 +91,7 @@ function SearchInput({ cName, initialValue, prompt }) {
 
             </input>
             <button className={submit ? `${submit} ${style.submit}` : style.submit} onClick={btnClick}>
-               <img className={img ? `${img} ${style.search_image}` : style.search_image} src={"images/search.png"} />
+               <Image className={img ? `${img} ${style.search_image}` : style.search_image} src={"/images/search.png"} alt={'search'} />
             </button>
          </div>
       </div>
