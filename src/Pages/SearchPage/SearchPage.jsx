@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 import style from './SearchPage.module.scss';
@@ -7,22 +7,18 @@ import SearchArticle from '../../UI/SearchArticle/SearchArticle';
 import ArticlesList from '../../components/ArticlesList/ArticlesList';
 import { useFetching } from '../../hooks/useFetching'
 import { getResultSearch } from '../../api/sendRequest'
-import { countPages } from '../../utils/page'
 import Loader from '../../UI/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination'
-import { setNumberPage, setTotalPages } from '../../store/actions';
+import { getSearchInput, push, setNumberPage, setTotalPages } from '../../store/actions';
+import { usePagination } from '../../hooks/usePagination';
 
 const LIMIT = 20;
 
 function Search() {
    const dispatch = useDispatch();
    const page = useSelector(state => state.page.number);
-   const searchValue = useSelector(state => state.search.search);
-   const totalPages = useSelector(state => state.page.totalPages);
-   const history = useHistory();
-   //const [page, setPage] = useState(1);
+   const searchValue = useSelector(state => state.search.query);
    const [articles, setActicles] = useState([]);
-   //const [totalPages, setTotalPages] = useState();
    const [getArticles, isArcticlesLoading, errorArticles] = useFetching(async () => {
       const listActicles = await getResultSearch(searchValue, page, LIMIT);
       setActicles(listActicles.articles);
@@ -30,16 +26,7 @@ function Search() {
       dispatch(setTotalPages(searchResults, LIMIT));
    });
 
-   useEffect(() => {
-      if (searchValue) {
-         dispatch(setNumberPage(1))
-         getArticles()
-      }
-   }, [searchValue])
-
-   useEffect(() => {
-      getArticles()
-   }, [page])
+   usePagination(getArticles);
 
    return (
       <>
@@ -54,8 +41,9 @@ function Search() {
             }
          }
             initialValue={searchValue}
+            alertBottom={-60}
          />
-         <main className="main">
+         <main className={`${style.main} main`}>
             <div className="container">
                <div className="search_result">
                   {
@@ -89,7 +77,7 @@ function Search() {
                                        }
                                        articles={articles}
                                     />
-                                    <Pagination cName={style.pagination} totalPages={totalPages} numberPage={+page} />
+                                    <Pagination cName={style.pagination} />
                                  </>
                               )
                               :

@@ -24,7 +24,7 @@ function WeatherPage() {
    return (
       <>
          <Header isSearchOpen />
-         <main className={`main`}>
+         <main className={`main ${style.main}`}>
             <div className="container">
                <h2 className={style.header}>Weather</h2>
                <div className={style.current_city}>{searchWeather[0].toUpperCase() + searchWeather.toLowerCase().slice(1)}, weather forecast</div>

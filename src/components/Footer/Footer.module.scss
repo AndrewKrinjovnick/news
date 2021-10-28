@@ -1,0 +1,50 @@
+@import '../../stylesheet/const';
+
+.footer {
+   min-height: 150px;
+   background-color: $footer-bg-color;
+   color: $gray-main-color;
+   color: white;
+
+   .footer_top {
+      display: flex;
+      justify-content: space-between;
+      font-size: $header-fs;
+      font-weight: 500;
+      text-align: center;
+
+      .list {
+         
+         &_item {
+            padding: 15px 0;
+         }
+      }
+
+      .header {
+         display: block;
+         padding: 15px 0;
+      }
+
+      .link {
+         color: white;
+      }
+   }
+
+   .social {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: $menu-fs;
+
+      .img {
+         width: 30px;
+         margin: 5px 10px;
+      }
+   }
+
+   .copyright {
+      text-align: center;
+      padding: 10px;
+      overflow: hidden;
+   }
+}

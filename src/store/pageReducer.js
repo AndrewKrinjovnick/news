@@ -1,10 +1,12 @@
 import { countPages } from "../utils/page";
-import { PAGE_DECREMENT, PAGE_INCREMENT, SET_NUMBER_PAGE, SET_TOTAL_PAGES } from "./types";
+import { IS_PUSH, PAGE_DECREMENT, PAGE_INCREMENT, SET_NUMBER_PAGE, SET_TOTAL_PAGES, SORT_BY } from "./types";
 
 
 const initialState = {
     number: 1,
-    totalPages: 0
+    totalPages: 0,
+    isPush: true,
+    sortBy: 'publishedAt'
 }
 
 export const pageReducer = (state = initialState, action) => {
@@ -32,6 +34,18 @@ export const pageReducer = (state = initialState, action) => {
             return {
                 ...state,
                 totalPages: countPages(action.payload.query, action.payload.limit)
+            }
+
+        case IS_PUSH:
+            return {
+                ...state,
+                isPush: action.payload
+            }
+
+        case SORT_BY:
+            return {
+                ...state,
+                sortBy: action.payload
             }
 
         default: return state;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import style from './DropDown.module.scss'
 import OutsideEvent from '../OutsideEvent/OutsideEvent';
+import PropTypes from 'prop-types'
 
 function DropDown({ options, getNewValue }) {
     const [currentElem, setCurrentElem] = useState(options[0]);
@@ -12,22 +13,11 @@ function DropDown({ options, getNewValue }) {
         getNewValue(option);
     }
 
-    // const closeOptionsEscape = (e) => {
-    //     if (e.code === 'Escape') {
-    //         setIsOpen(false);
-    //     }
-    // }
-
-    const closeOptions = (e) => {
-        setIsOpen(false)
-    }
-
     return (
         <OutsideEvent
             outsideEvent={
-                {
-                    type: 'click',
-                    callback: closeOptions
+                () => {
+                    setIsOpen(false)
                 }
             }
         >
@@ -61,6 +51,14 @@ function DropDown({ options, getNewValue }) {
             </div>
         </OutsideEvent>
     )
+}
+
+DropDown.propTypes = {
+    options: PropTypes.arrayOf(PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ])),
+    getNewValue: PropTypes.func
 }
 
 export default DropDown

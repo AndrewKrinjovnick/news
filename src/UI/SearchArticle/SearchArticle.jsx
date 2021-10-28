@@ -1,28 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from "react-router-dom";
-import { useDispatch } from 'react-redux';
 import style from './SearchArticle.module.scss';
 import Image from '../Image';
-import { getSearchInput } from '../../store/actions'
+import WrongData from '../WrongData/WrongData';
+import { useSelector } from 'react-redux';
 
-SearchInput.propTypes = {
-   cName: PropTypes.objectOf(PropTypes.string),
-}
+let timeout;
 
-SearchInput.defaultProps = {
-   cName: {}
-}
-
-
-function SearchInput({ cName, initialValue, prompt }) {
-   let timeout;
+function SearchInput({ cName, initialValue = '', prompt, alertBottom = -75 }) {
+   const query = useSelector(state => state.search.query)
    const { search, input, submit, img, wrapper } = cName;
+   const [isOpen, setIsOpen] = useState(false);
+   const [searchValue, setSearchValue] = useState('');
+   const sortBy = useSelector(state => state.page.sortBy);
    const searchBlock = useRef();
-   const [searchValue, setSearchValue] = useState(initialValue || '');
-   const dispatch = useDispatch();
-
    let history = useHistory();
+
+   useEffect(() => {
+      if (!searchValue) setSearchValue(initialValue);
+   }, [query])
 
    const getSearchValue = (e) => {
       setSearchValue(e.target.value);
@@ -35,17 +32,18 @@ function SearchInput({ cName, initialValue, prompt }) {
    }, [])
 
    const scan = (e) => {
-      if (e.key === 'Enter') {
+      if (e.key === 'Enter' || e.type === 'click') {
          if (searchValue.trim()) {
-
-            dispatch(getSearchInput(searchValue))
-            if (history.location.pathname !== '/search') {
-               history.push('/search');
-            }
+            history.push({
+               pathname: '/search',
+               search: `?q=${searchValue}&page=${1}&sort=${sortBy}`
+            });
          }
          else {
             if (searchBlock.current) {
+               setIsOpen(!isOpen);
                setSearchValue('');
+               clearTimeout(timeout)
                searchBlock.current.style.outline = '2px solid red'
                timeout = setTimeout(() => {
                   searchBlock.current.style.outline = 'none'
@@ -56,46 +54,53 @@ function SearchInput({ cName, initialValue, prompt }) {
 
    }
 
-   const btnClick = (e) => {
-      if (searchValue.trim()) {
-         dispatch(getSearchInput(searchValue))
-         if (history.location.pathname !== '/search') {
-            history.push('/search');
-         }
-      }
-      else {
-         if (searchBlock.current) {
-            setSearchValue('');
-            searchBlock.current.style.outline = '2px solid red'
-            timeout = setTimeout(() => {
-               searchBlock.current.style.outline = 'none'
-            }, 1000)
-         }
-      }
-   }
-
    return (
       <div className={search ? `${search} ${style.search}` : style.search} >
-         <div
-            className={wrapper ? `${style.wrapper} ${wrapper}` : style.wrapper}
-            ref={searchBlock}
+         <WrongData
+            message="Empty field"
+            style={
+               {
+                  bottom: alertBottom
+               }
+            }
+            direction='bottom'
+            timer={true}
+            open={isOpen}
          >
-            <input
-               className={input ? `${input} ${style.input}` : style.input}
-               value={searchValue}
-               placeholder={prompt || 'Search...'}
-               onChange={getSearchValue}
-               onKeyDown={scan}
-               autoFocus={history.location.pathname === '/search' ? true : false}
+            <div
+               className={wrapper ? `${style.wrapper} ${wrapper}` : style.wrapper}
+               ref={searchBlock}
             >
 
-            </input>
-            <button className={submit ? `${submit} ${style.submit}` : style.submit} onClick={btnClick}>
-               <Image className={img ? `${img} ${style.search_image}` : style.search_image} src={"/images/search.png"} alt={'search'} />
-            </button>
-         </div>
+               <input
+                  className={input ? `${input} ${style.input}` : style.input}
+                  value={searchValue}
+                  placeholder={prompt || 'Search...'}
+                  onChange={getSearchValue}
+                  onKeyDown={scan}
+                  autoFocus={history.location.pathname === '/search' ? true : false}
+               />
+
+               <button
+                  className={submit ? `${submit} ${style.submit}` : style.submit}
+                  onClick={scan}
+               >
+                  <Image className={img ? `${img} ${style.search_image}` : style.search_image} src={"/images/search.png"} alt={'search'} />
+               </button>
+            </div>
+         </WrongData>
       </div>
    )
+}
+
+SearchInput.propTypes = {
+   cName: PropTypes.objectOf(PropTypes.string),
+   initialValue: PropTypes.string,
+   prompt: PropTypes.string
+}
+
+SearchInput.defaultProps = {
+   cName: {}
 }
 
 export default SearchInput

@@ -1,6 +1,7 @@
+@import '../../stylesheet/const';
 
 .header {
-   background-color: rgb(92, 92, 92);
+   background-color: $header-bg-color;
    
    &__wrapper {
       display: flex;

@@ -37,7 +37,7 @@ function MainPage() {
                   errorArticles
                      ?
                      <div className="container">
-                        <h2>Не удалось загрузить данные. {errorArticles}"</h2>
+                        <h2>Failed to load data. {errorArticles}"</h2>
                      </div>
                      :
                      <div className={style.actual_news}>
@@ -51,7 +51,6 @@ function MainPage() {
                         />
                      </div>
                }
-
                {
                   isArcticlesLoading
                      ?
@@ -63,7 +62,7 @@ function MainPage() {
                         ?
                         null
                         :
-                        <h2>Нет новостей</h2>
+                        <h2>No news</h2>
                }
 
                <div className={style.last_element} ref={lastElem}></div>

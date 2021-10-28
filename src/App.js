@@ -4,14 +4,16 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import 'normalize.css';
 import './stylesheet/global.scss';
 import AppRouter from "./components/AppRouter";
+import Footer from "./components/Footer/Footer";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   return (
     <ErrorBoundary>
       <Router>
-        <div className="wrapper">
-          <AppRouter />
-        </div>
+        <ScrollToTop />
+        <AppRouter />
+        <Footer />
       </Router>
     </ErrorBoundary>
   );

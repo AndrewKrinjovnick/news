@@ -10,17 +10,21 @@ export default class OutsideEvent extends Component {
     }
 
     addEvent = (event) => {
-        if (this.elemRef.current !== event.target && !this.elemRef.current.contains(event.target)) {
-            this.props.outsideEvent.callback(event);
+        if ((this.elemRef.current !== event.target && !this.elemRef.current.contains(event.target)) || event.key === 'Escape') {
+            this.props.outsideEvent();
         }
     }
 
     componentDidMount() {
-        document.addEventListener(this.props.outsideEvent.type, this.addEvent);
+        ['click', 'keydown'].forEach((evt) => {
+            document.addEventListener(evt, this.addEvent);
+        });
     }
 
     componentWillUnmount() {
-        document.removeEventListener(this.props.outsideEvent.type, this.addEvent);
+        ['click', 'keydown'].forEach((evt) => {
+            document.removeEventListener(evt, this.addEvent);
+        });
     }
 
     render() {
@@ -36,5 +40,6 @@ export default class OutsideEvent extends Component {
 }
 
 OutsideEvent.propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired,
+    outsideEvent: PropTypes.func.isRequired
 };

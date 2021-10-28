@@ -16,16 +16,17 @@
 
 .tooltip {
     position: absolute;
-    padding: 10px;
     background-color: rgb(243, 93, 93);
     border-radius: 5px;
     z-index: 55;
     box-shadow: 0 0 3px red;
+    text-align: center;
 
     &_body {
+        padding: 10px;
         font-size: $header-fs;
         font-weight: 500;
-        color: rgb(26, 26, 26);
+        color: white;
     }
 
     .triangle {
@@ -43,22 +44,22 @@
         transform: translateX(-50%);
     }
 
-    .right-direction {
+    .left-direction {
         right: -20px;
         border-left: 10px solid rgb(243, 93, 93);
     }
 
-    .left-direction {
+    .right-direction {
         left: -20px;
         border-right: 10px solid rgb(243, 93, 93);
     }
 
-    .top-direction {
+    .bottom-direction {
         top: -20px;
         border-bottom: 10px solid rgb(243, 93, 93);
     }
 
-    .bottom-direction {
+    .top-direction {
         bottom: -20px;
         border-top: 10px solid rgb(243, 93, 93);
     }

@@ -1,20 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './SearchInput.module.scss'
 import Image from '../Image'
 import WrongData from '../WrongData/WrongData';
+import PropTypes from 'prop-types';
 
 function SearchInput({ placeH, startValue, search }) {
     const [inputValue, setInputValue] = useState(startValue || '');
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
+    const [emptyField, setEmptyField] = useState(false);
+    let timer;
 
-    const startSearch = (e) => {
-        if (e.key === 'Enter') {
+    useEffect(() => {
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [])
+
+    const submitSearch = (e) => {
+        if (e.key === 'Enter' || e.type === 'click') {
             if (inputValue.trim()) {
                 search(inputValue);
-                setIsOpen(false);
             }
             else {
-                setIsOpen(true);
+                console.log('click')
+                setInputValue('');
+                clearTimeout(timer);
+                setEmptyField(true);
+                setIsOpen(!isOpen);
+                timer = setTimeout(() => {
+                    setEmptyField(false);
+                }, 1000)
             }
         }
     }
@@ -28,18 +43,17 @@ function SearchInput({ placeH, startValue, search }) {
                         left: '-130px'
                     }
                 }
-                direction='right'
+                direction='left'
                 timer={true}
                 open={isOpen}
             >
                 <div className={style.wrapper}>
-
                     <input
-                        className={style.input}
+                        className={emptyField ? `${style.input} ${style.empty}` : style.input}
                         placeholder={placeH}
                         value={inputValue}
                         onChange={(e) => setInputValue(e.target.value)}
-                        onKeyDown={startSearch}
+                        onKeyDown={submitSearch}
                     />
                     <button
                         className={!inputValue.trim() ? style.close : `${style.close} ${style.active}`}
@@ -47,8 +61,7 @@ function SearchInput({ placeH, startValue, search }) {
                     />
                     <button
                         className={style.submit}
-                        disabled={Boolean(!inputValue.trim())}
-                        onClick={() => search(inputValue)}
+                        onClick={submitSearch}
                     >
                         <Image className={style.search_image} src={"./images/search.png"} alt='search' />
                     </button>
@@ -57,6 +70,12 @@ function SearchInput({ placeH, startValue, search }) {
             </WrongData>
         </div >
     )
+}
+
+SearchInput.propTypes = {
+    placeH: PropTypes.string,
+    startValue: PropTypes.string,
+    search: PropTypes.func.isRequired
 }
 
 export default SearchInput

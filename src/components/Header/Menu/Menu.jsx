@@ -24,15 +24,6 @@ function Menu() {
                   Weather
                </NavLink>
             </li>
-            <li className={style.list__item}>
-               <NavLink
-                  activeClassName={style.selected}
-                  className={style.link}
-                  to='/covid'
-               >
-                  Covid
-               </NavLink>
-            </li>
          </ul>
       </nav>
    )

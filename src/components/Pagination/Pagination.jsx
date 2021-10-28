@@ -1,15 +1,16 @@
 import React, { memo } from 'react';
-import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
 import style from './Pagination.module.scss';
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux';
-import { pageDecrement, pageIncrement, setNumberPage } from '../../store/actions';
+import { pageDecrement, pageIncrement, push, setNumberPage } from '../../store/actions';
 
 const COUNTER_PAGE = 9;
 
-function Pagination({ totalPages, numberPage, cName }) {
+function Pagination({ cName }) {
    const pages = [];
-   const history = useHistory();
+   const totalPages = useSelector(state => state.page.totalPages);
+   const numberPage = useSelector(state => state.page.number);
    let counter = 0;
    const dispatch = useDispatch();
 
@@ -39,7 +40,11 @@ function Pagination({ totalPages, numberPage, cName }) {
          <li
             className={i === numberPage ? `${style.list_item} ${style.active}` : style.list_item}
             key={i}
-            onClick={() => dispatch(setNumberPage(i))}>
+            onClick={() => {
+               dispatch(push(true))
+               dispatch(setNumberPage(i))
+            }}
+         >
             {i}
          </li>
       )
@@ -71,9 +76,7 @@ function Pagination({ totalPages, numberPage, cName }) {
 }
 
 Pagination.propTypes = {
-   cName: PropTypes.string,
-   totalPages: PropTypes.number.isRequired,
-   numberPage: PropTypes.number.isRequired
+   cName: PropTypes.string
 }
 
 export default memo(Pagination)

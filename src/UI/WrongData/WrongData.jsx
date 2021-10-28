@@ -12,15 +12,21 @@ class WrongData extends React.Component {
     componentDidUpdate(preProps) {
         if (preProps.open !== this.props.open) {
             this.setState({ isOpen: true })
-        }
+            clearTimeout(this.timer);
 
-        if (this.props.timer) {
-            this.timer(this.props.time || 3000)
+            if (this.props.timer) {
+                this.close(this.props.time || 2000)
+            }
         }
     }
 
-    timer(time) {
-        setTimeout(() => {
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+    }
+
+    close(time) {
+
+        this.timer = setTimeout(() => {
             this.setState({ isOpen: false })
         }, time)
     }

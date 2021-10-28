@@ -1,28 +1,19 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom';
-import MainPage from '../Pages/MainPage/MainPage';
-import WeatherPage from '../Pages/WeatherPage/WeatherPage';
-import SearchPage from '../Pages/SearchPage/SearchPage';
-import SportPage from '../Pages/SportPage/SportPage';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { routes } from '../router/index'
 
 function AppRouter() {
    return (
       <Switch>
-         <Route exact path="/sport/:nameSport">
-            <SportPage />
-         </Route>
-
-         <Route exact path="/search/">
-            <SearchPage />
-         </Route>
-
-         <Route exact path="/weather">
-            <WeatherPage />
-         </Route>
-
-         <Route exact path="/">
-            <MainPage />
-         </Route>
+         {
+            routes.map(route => (
+               <Route
+                  key={route.path}
+                  {...route}
+               />
+            ))
+         }
+         <Redirect to={'/'} />
       </Switch>
    )
 }

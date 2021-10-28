@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo, memo } from 'react'
+import React, { useState, useEffect, memo } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router'
 import Header from '../../components/Header/Header'
 import Image from '../../UI/Image'
@@ -10,20 +11,22 @@ import { useFetching } from '../../hooks/useFetching'
 import ArticlesList from '../../components/ArticlesList/ArticlesList'
 import Loader from '../../UI/Loader/Loader'
 import { getResultSearch } from '../../api/sendRequest'
-import { countPages } from '../../utils/page'
 import Pagination from '../../components/Pagination/Pagination'
 import DropDown from '../../UI/DropDown/DropDown'
+import { setNumberPage, setTotalPages, sortArticles } from '../../store/actions'
+import { usePagination } from '../../hooks/usePagination'
 
 const LIMIT = 21;
 
 function SportPage() {
    let key = 1;
+   const dispatch = useDispatch();
+   const page = useSelector(state => state.page.number);
+   const totalPages = useSelector(state => state.page.totalPages);
    const [mainArticle, setMainArticle] = useState([])
    const [sportArticles, setSportArticles] = useState([]);
-   const [sortBy, setSortBy] = useState('publishedAt')
+   const sortBy = useSelector(state => state.page.sortBy);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
-   const [page, setPage] = useState(1);
-   const [totalPages, setTotalPages] = useState(1);
    const [isBurgetActive, setIsBurgerActive] = useState(false);
    const { nameSport } = useParams();
    const currentCategory = nameSport === 'home' ? 'sport' : nameSport;
@@ -37,16 +40,17 @@ function SportPage() {
       const listActicles = await getResultSearch(currentCategory, page, LIMIT, sortBy);
       setSportArticles(listActicles.articles);
       const sportArticlesResults = listActicles.totalResults;
-      setTotalPages(countPages(sportArticlesResults, LIMIT));
+      dispatch(setTotalPages(sportArticlesResults, LIMIT));
    });
 
    useEffect(() => {
       getMainArticle();
    }, [nameSport])
 
-   useEffect(() => {
-      getSportArticles();
-   }, [page, nameSport, sortBy])
+   usePagination(getSportArticles, [sortBy, nameSport]);
+   // useEffect(() => {
+   //    getSportArticles();
+   // }, [page, nameSport, sortBy])
 
    const closeOrOpenMenu = () => {
       setIsMenuOpen(!isMenuOpen);
@@ -54,14 +58,14 @@ function SportPage() {
    }
 
    const openChosenCategory = (category) => {
-      setPage(1);
+      dispatch(setNumberPage(1))
       setIsMenuOpen(false);
       setIsBurgerActive(false);
       history.push(`/sport/${category.toLowerCase()}`);
    }
 
    return (
-      <main className="main">
+      <main className={`main ${style.main}`}>
          <Header isSearchOpen />
          <div className={style.sport_menu}>
             <div className="container">
@@ -129,25 +133,31 @@ function SportPage() {
                      !errorMainArticle
                         ?
 
-                        <ArticlesList
-                           cName={
-                              {
-                                 articles_item: style.article,
-                                 article_list: style.article_list,
-                                 link: style.link,
-                                 header: style.link_header,
-                                 description: style.main_article_description
-                              }
-                           }
-                           articles={mainArticle}
-                        />
+                        (
+                           page === 1
+                              ?
+                              <ArticlesList
+                                 cName={
+                                    {
+                                       articles_item: style.article,
+                                       article_list: style.article_list,
+                                       link: style.link,
+                                       header: style.link_header,
+                                       description: style.main_article_description
+                                    }
+                                 }
+                                 articles={mainArticle}
+                              />
+                              :
+                              null
+                        )
                         :
                         <h2>Failed to load data</h2>
                }
                <div className={style.drop_down}>
                   <p className={style.filter}>Sort by</p>
                   <DropDown
-                     getNewValue={setSortBy}
+                     getNewValue={(category) => dispatch(sortArticles(category))}
                      options={['publishedAt', 'popularity', 'relevancy']}
                   />
                </div>
@@ -162,7 +172,7 @@ function SportPage() {
                         ?
                         <>
                            <ArticlesList articles={sportArticles} isTimeOpen />
-                           <Pagination cName={style.pagination} setPage={setPage} totalPages={totalPages} numberPage={+page} />
+                           <Pagination cName={style.pagination} totalPages={totalPages} numberPage={+page} />
                         </>
                         :
                         <h2>Failed to load data</h2>
