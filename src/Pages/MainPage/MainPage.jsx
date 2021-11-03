@@ -7,6 +7,7 @@ import { useFetching } from '../../hooks/useFetching'
 import { countPages } from '../../utils/page';
 import Header from '../../components/Header/Header'
 import { useObserver } from '../../hooks/useObserver'
+import Footer from '../../components/Footer/Footer';
 
 const LIMIT = 18;
 
@@ -68,6 +69,7 @@ function MainPage() {
                <div className={style.last_element} ref={lastElem}></div>
             </div>
          </main>
+         <Footer />
       </>
    )
 }

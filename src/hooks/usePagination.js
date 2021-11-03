@@ -38,7 +38,6 @@ export const usePagination = (getArticles, dependencies = []) => {
       }
 
       if (searchParams.has('q')) {
-         console.log('tot')
          setSearchArticle(!searchArticle)
          dispatch(getSearchInput(searchParams.get('q')))
       }

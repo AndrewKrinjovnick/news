@@ -13,7 +13,6 @@ function App() {
       <Router>
         <ScrollToTop />
         <AppRouter />
-        <Footer />
       </Router>
     </ErrorBoundary>
   );

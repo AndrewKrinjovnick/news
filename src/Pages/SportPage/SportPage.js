@@ -15,6 +15,7 @@ import Pagination from '../../components/Pagination/Pagination'
 import DropDown from '../../UI/DropDown/DropDown'
 import { setNumberPage, setTotalPages, sortArticles } from '../../store/actions'
 import { usePagination } from '../../hooks/usePagination'
+import Footer from '../../components/Footer/Footer'
 
 const LIMIT = 21;
 
@@ -48,9 +49,6 @@ function SportPage() {
    }, [nameSport])
 
    usePagination(getSportArticles, [sortBy, nameSport]);
-   // useEffect(() => {
-   //    getSportArticles();
-   // }, [page, nameSport, sortBy])
 
    const closeOrOpenMenu = () => {
       setIsMenuOpen(!isMenuOpen);
@@ -65,26 +63,53 @@ function SportPage() {
    }
 
    return (
-      <main className={`main ${style.main}`}>
+      <>
          <Header isSearchOpen />
-         <div className={style.sport_menu}>
-            <div className="container">
-               <div className={style.top_menu}>
-                  <h2 className={style.sport_header}>
-                     Sport
-                  </h2>
-                  <Image className={style.img} src='/images/sport.png' alt='sport' />
+         <main className={`main ${style.main}`}>
+            <div className={style.sport_menu}>
+               <div className="container">
+                  <div className={style.top_menu}>
+                     <h2 className={style.sport_header}>
+                        Sport
+                     </h2>
+                     <Image className={style.img} src='/images/sport.png' alt='sport' />
+                  </div>
+               </div>
+               <div className={style.bottom_menu}>
+                  <div className="container">
+                     <nav className={style.nav}>
+                        <ul className={style.menu_list}>
+                           {
+                              menuNames.map(li => (
+                                 <ListItem
+                                    key={key++}
+                                    cName={nameSport === li.toLowerCase() ? `${style.menu_list_item} ${style.active}` : style.menu_list_item}
+                                    clickEvent={() => openChosenCategory(li)}
+                                 >
+                                    {li}
+                                 </ListItem>
+                              ))
+                           }
+                        </ul>
+                        <div
+                           className={isBurgetActive ? `${style.burger} ${style.active}` : style.burger}
+                           onClick={closeOrOpenMenu}>
+                           <span />
+                        </div>
+                     </nav>
+                  </div>
                </div>
             </div>
-            <div className={style.bottom_menu}>
-               <div className="container">
-                  <nav className={style.nav}>
-                     <ul className={style.menu_list}>
+            <section className={style.news}>
+
+               <div className={isMenuOpen ? `${style.close_menu} ${style.active}` : style.close_menu}>
+                  <div className="container">
+                     <ul className={style.menu_list_close}>
                         {
-                           menuNames.map(li => (
+                           closeMenuSport.map(li => (
                               <ListItem
                                  key={key++}
-                                 cName={nameSport === li.toLowerCase() ? `${style.menu_list_item} ${style.active}` : style.menu_list_item}
+                                 cName={style.menu_list_close_item}
                                  clickEvent={() => openChosenCategory(li)}
                               >
                                  {li}
@@ -92,94 +117,70 @@ function SportPage() {
                            ))
                         }
                      </ul>
-                     <div
-                        className={isBurgetActive ? `${style.burger} ${style.active}` : style.burger}
-                        onClick={closeOrOpenMenu}>
-                        <span />
-                     </div>
-                  </nav>
+                  </div>
                </div>
-            </div>
-         </div>
-         <section className={style.news}>
 
-            <div className={isMenuOpen ? `${style.close_menu} ${style.active}` : style.close_menu}>
-               <div className="container">
-                  <ul className={style.menu_list_close}>
-                     {
-                        closeMenuSport.map(li => (
-                           <ListItem
-                              key={key++}
-                              cName={style.menu_list_close_item}
-                              clickEvent={() => openChosenCategory(li)}
-                           >
-                              {li}
-                           </ListItem>
-                        ))
-                     }
-                  </ul>
-               </div>
-            </div>
-
-            <div className='container'>
-               <h2 className={style.header_name_sport}>{currentCategory[0].toUpperCase() + currentCategory.slice(1)}</h2>
-               {
-                  isLoadingMainArticle
-                     ?
-                     <div className="flex-wrapper">
-                        <Loader />
-                     </div>
-                     :
-                     !errorMainArticle
+               <div className='container'>
+                  <h2 className={style.header_name_sport}>{currentCategory[0].toUpperCase() + currentCategory.slice(1)}</h2>
+                  {
+                     isLoadingMainArticle
                         ?
+                        <div className="flex-wrapper">
+                           <Loader />
+                        </div>
+                        :
+                        !errorMainArticle
+                           ?
 
-                        (
-                           page === 1
-                              ?
-                              <ArticlesList
-                                 cName={
-                                    {
-                                       articles_item: style.article,
-                                       article_list: style.article_list,
-                                       link: style.link,
-                                       header: style.link_header,
-                                       description: style.main_article_description
+                           (
+                              page === 1
+                                 ?
+                                 <ArticlesList
+                                    cName={
+                                       {
+                                          articles_item: style.article,
+                                          article_list: style.article_list,
+                                          link: style.link,
+                                          header: style.link_header,
+                                          description: style.main_article_description
+                                       }
                                     }
-                                 }
-                                 articles={mainArticle}
-                              />
-                              :
-                              null
-                        )
-                        :
-                        <h2>Failed to load data</h2>
-               }
-               <div className={style.drop_down}>
-                  <p className={style.filter}>Sort by</p>
-                  <DropDown
-                     getNewValue={(category) => dispatch(sortArticles(category))}
-                     options={['publishedAt', 'popularity', 'relevancy']}
-                  />
-               </div>
-               {
-                  isLoadingSportArticles
-                     ?
-                     <div className="flex-wrapper">
-                        <Loader />
-                     </div>
-                     :
-                     !errorSportArticles
+                                    articles={mainArticle}
+                                 />
+                                 :
+                                 null
+                           )
+                           :
+                           <h2>Failed to load data</h2>
+                  }
+                  <div className={style.drop_down}>
+                     <p className={style.filter}>Sort by</p>
+                     <DropDown
+                        getNewValue={(category) => dispatch(sortArticles(category))}
+                        options={['publishedAt', 'popularity', 'relevancy']}
+                     />
+                  </div>
+                  {
+                     isLoadingSportArticles
                         ?
-                        <>
-                           <ArticlesList articles={sportArticles} isTimeOpen />
-                           <Pagination cName={style.pagination} totalPages={totalPages} numberPage={+page} />
-                        </>
+                        <div className="flex-wrapper">
+                           <Loader />
+                        </div>
                         :
-                        <h2>Failed to load data</h2>
-               }
-            </div>
-         </section>
-      </main>
+                        !errorSportArticles
+                           ?
+                           <>
+                              <ArticlesList articles={sportArticles} isTimeOpen />
+                              <Pagination cName={style.pagination} totalPages={totalPages} numberPage={+page} />
+                           </>
+                           :
+                           <h2>Failed to load data</h2>
+                  }
+               </div>
+            </section>
+         </main>
+         <Footer />
+      </>
    )
 }
 

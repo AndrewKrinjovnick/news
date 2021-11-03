@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router';
 import style from './SearchPage.module.scss';
 import Header from '../../components/Header/Header';
 import SearchArticle from '../../UI/SearchArticle/SearchArticle';
@@ -9,8 +8,9 @@ import { useFetching } from '../../hooks/useFetching'
 import { getResultSearch } from '../../api/sendRequest'
 import Loader from '../../UI/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination'
-import { getSearchInput, push, setNumberPage, setTotalPages } from '../../store/actions';
+import { setTotalPages } from '../../store/actions';
 import { usePagination } from '../../hooks/usePagination';
+import Footer from '../../components/Footer/Footer';
 
 const LIMIT = 20;
 
@@ -86,6 +86,7 @@ function Search() {
                </div>
             </div>
          </main>
+         <Footer />
       </>
    )
 }

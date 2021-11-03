@@ -7,6 +7,7 @@ import WeatherContent from '../../components/WeatherContent/WeatherContent'
 import Loader from '../../UI/Loader/Loader';
 import SearchInput from '../../UI/SearchInput/SearchInput';
 import Image from '../../UI/Image';
+import Footer from '../../components/Footer/Footer';
 
 function WeatherPage() {
    const [searchWeather, setSearchWeather] = useState('Kiev');
@@ -47,6 +48,7 @@ function WeatherPage() {
                }
             </div>
          </main>
+         <Footer />
       </>
    )
 }

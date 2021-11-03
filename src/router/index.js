@@ -1,7 +1,9 @@
-import SportPage from "../Pages/SportPage/SportPage"
+import React from 'react';
 import SearchPage from '../Pages/SearchPage/SearchPage'
-import WeatherPage from "../Pages/WeatherPage/WeatherPage"
 import MainPage from "../Pages/MainPage/MainPage"
+
+const SportPage = React.lazy(() => import("../Pages/SportPage/SportPage"));
+const WeatherPage = React.lazy(() => import("../Pages/WeatherPage/WeatherPage"));
 
 export const routes = [
    {
