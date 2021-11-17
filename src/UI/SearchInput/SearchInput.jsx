@@ -14,7 +14,7 @@ function SearchInput({ placeH, startValue, search }) {
         return () => {
             clearTimeout(timer)
         }
-    }, [])
+    }, [timer])
 
     const submitSearch = (e) => {
         if (e.key === 'Enter' || e.type === 'click') {

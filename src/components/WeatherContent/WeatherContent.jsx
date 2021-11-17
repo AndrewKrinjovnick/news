@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import style from './WeatherContent.module.scss'
 import TabWeather from './TabWeather'
 import Image from '../../UI/Image'
+import { params, timesOfDay } from '../../data/Weather'
 
 
 function ForecastContent({ weatherContent }) {
@@ -33,7 +34,6 @@ WeatherContent.propTypes = {
 
 
 function WeatherContent({ forecastWeather, tab, tabEvent }) {
-   let key = 1;
 
    const currentWeather = forecastWeather[+tab.match(/\d/)[0]] ? forecastWeather[+tab.match(/\d/)[0]] : { hour: [] };
    const forecastContentArray = [];
@@ -41,7 +41,7 @@ function WeatherContent({ forecastWeather, tab, tabEvent }) {
 
    for (let i = 0; i < currentWeather.hour.length; i++) {
       if (i % 3 === 0) {
-         forecastContentArray.push(<ForecastContent key={key++} weatherContent={currentWeather.hour[i]} />)
+         forecastContentArray.push(<ForecastContent key={i} weatherContent={currentWeather.hour[i]} />)
       }
    }
 
@@ -52,7 +52,7 @@ function WeatherContent({ forecastWeather, tab, tabEvent }) {
                forecastWeather.map((forecast, index) => {
                   return (
                      <TabWeather
-                        key={key++}
+                        key={index}
                         forecast={forecast}
                         numElem={index}
                         tabEvent={tabEvent}
@@ -67,19 +67,24 @@ function WeatherContent({ forecastWeather, tab, tabEvent }) {
                   <li className={`${style.list_item} ${style.date_forecast}`}>{dateForecast.toLocaleString('en-US', { weekday: 'long' }) || null}</li>
                   <li className={`${style.list_item} ${style.date_forecast} ${style.date}`}>{dateForecast.toLocaleString('en-US', { day: '2-digit' }) || null}</li>
                   <li className={`${style.list_item} ${style.date_forecast} ${style.month_name}`}>{dateForecast.toLocaleString('en-US', { month: 'long' }) || null}</li>
-                  <li className={style.list_item}>Temperature, ° C</li>
-                  <li className={style.list_item}>Feels like</li>
-                  <li className={style.list_item}>Pressure, mb</li>
-                  <li className={style.list_item}>Humidity, %</li>
-                  <li className={style.list_item}>Wind, km / h</li>
-                  <li className={style.list_item}>Precipitation probability,%</li>
+                  {
+                     params.map((param, index) => (
+                        <li key={index} className={style.list_item}>{param}</li>
+                     ))
+                  }
                </ul>
                <div className={style.weather_table}>
                   <div className={style.headers}>
-                     <div className={style.header}>night</div>
-                     <div className={style.header}>morning</div>
-                     <div className={style.header}>day</div>
-                     <div className={style.header}>evening</div>
+                     {
+                        timesOfDay.map((time, index) => (
+                           <div
+                              key={index}
+                              className={style.header}
+                           >
+                              {time}
+                           </div>
+                        ))
+                     }
                   </div>
                   <div className={style.content_wrapper}>
                      {forecastContentArray}

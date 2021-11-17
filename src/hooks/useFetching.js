@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export const useFetching = (request) => {
    const [isDataLoading, setIsDataLoading] = useState(false);
    const [error, setError] = useState();
 
-   const fetching = async () => {
+   const fetching = useCallback(async () => {
       try {
+         setError('');
          setIsDataLoading(true);
          await request();
       }
@@ -15,7 +16,7 @@ export const useFetching = (request) => {
       finally {
          setIsDataLoading(false);
       }
-   }
+   }, [request])
 
    return [fetching, isDataLoading, error];
 }

@@ -1,0 +1,14 @@
+@import '../../stylesheet/const';
+
+.social {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   font-size: $menu-fs;
+   margin-top: 10px;
+
+   .img {
+      width: 30px;
+      margin: 5px 10px;
+   }
+}

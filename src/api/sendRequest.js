@@ -1,10 +1,16 @@
 import { EVERY_NEWS, LAST_NEWS, ApiKeyNews, FORECAST, ApiKeyWeather } from './const';
 import axios from 'axios';
 
+const newsRequest = axios.create({
+   params: {
+      apiKey: ApiKeyNews,
+   },
+})
+
 export const lastNewsUa = async function (page, limit) {
-   const response = await axios.get(LAST_NEWS, {
+   const response = await newsRequest.get(LAST_NEWS, {
       params: {
-         apiKey: ApiKeyNews,
+
          country: 'us',
          pageSize: limit,
          page: page
@@ -15,9 +21,8 @@ export const lastNewsUa = async function (page, limit) {
 }
 
 export const getResultSearch = async function (query, page, limit, sortBy = "publishedAt") {
-   const response = await axios.get(EVERY_NEWS, {
+   const response = await newsRequest.get(EVERY_NEWS, {
       params: {
-         apiKey: ApiKeyNews,
          q: query,
          pageSize: limit,
          page: page,
@@ -29,9 +34,8 @@ export const getResultSearch = async function (query, page, limit, sortBy = "pub
 }
 
 export const getTopArticle = async function (query) {
-   const response = await axios.get(LAST_NEWS, {
+   const response = await newsRequest.get(LAST_NEWS, {
       params: {
-         apiKey: ApiKeyNews,
          q: query,
          pageSize: 1
       }

@@ -28,17 +28,9 @@
       .link {
          color: white;
       }
-   }
 
-   .social {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: $menu-fs;
-
-      .img {
-         width: 30px;
-         margin: 5px 10px;
+      .column {
+         margin: 5px;
       }
    }
 

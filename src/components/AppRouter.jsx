@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import { routes } from '../router/index'
 import Loader from '../UI/Loader/Loader';
 
@@ -19,7 +19,7 @@ function AppRouter() {
                   />
                ))
             }
-            <Redirect to={'/'} />
+
          </Suspense>
       </Switch>
    )

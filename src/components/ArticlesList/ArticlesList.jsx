@@ -1,27 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 import style from './ArticlesList.module.scss';
+import classNames from 'classnames';
 import ArticleItem from '../ArticleItem/ArticleItem';
 
 
 
-function Articles({ articles, cName = {}, isTimeOpen = false }) {
-   let count = 0;
+function ArticlesList({ articles, cName = {}, isTimeOpen = false }) {
    const { article_list } = cName;
+   const articleListStyle = classNames({
+      [style.wrapper]: !article_list,
+      [article_list]: article_list
+   })
 
    return (
       <div
-         className={article_list ? `${article_list}` : style.wrapper}
+         className={articleListStyle}
       >
          {
-            articles.map(article => {
+            articles.map((article, index) => {
                if (!article.title || !article.description || !article.url || !article.urlToImage) {
                   return null;
                }
                return (
-
                   <ArticleItem
-                     key={count++}
+                     key={index}
                      cName={cName}
                      article={article}
                      isTimeOpen={isTimeOpen}
@@ -34,7 +37,7 @@ function Articles({ articles, cName = {}, isTimeOpen = false }) {
    )
 }
 
-Articles.propTypes = {
+ArticlesList.propTypes = {
    cName: PropTypes.objectOf(PropTypes.string),
    isTimeOpen: PropTypes.bool,
    articles: PropTypes.arrayOf(
@@ -47,5 +50,5 @@ Articles.propTypes = {
    ).isRequired
 }
 
-export default Articles
+export default ArticlesList
 

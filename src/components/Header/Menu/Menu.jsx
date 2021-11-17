@@ -10,7 +10,7 @@ function Menu() {
                <NavLink
                   activeClassName={style.selected}
                   className={style.link}
-                  to='/sport/home'
+                  to='/sport/home/?q=sport&page=1&sort=publishedAt'
                >
                   Sport
                </NavLink>

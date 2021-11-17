@@ -1,59 +1,85 @@
-import React, { memo } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import style from './Pagination.module.scss';
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux';
 import { pageDecrement, pageIncrement, push, setNumberPage } from '../../store/actions';
+import classNames from 'classnames';
 
 const COUNTER_PAGE = 9;
 
 function Pagination({ cName }) {
-   const pages = [];
+   const [pages, setPages] = useState([]);
    const totalPages = useSelector(state => state.page.totalPages);
    const numberPage = useSelector(state => state.page.number);
    let counter = 0;
    const dispatch = useDispatch();
 
-   for (let i = 1; i <= totalPages; i++) {
-      if (totalPages > COUNTER_PAGE) {
+   const firstPageStyle = classNames({
+      [style.btn]: true,
+      [style.prev]: true,
+      [style.hidden]: numberPage === 1,
 
-         if (numberPage <= ((COUNTER_PAGE / 2) + 0.5)) {
+   })
 
-            if (i > COUNTER_PAGE - 1 && i !== totalPages) {
-               continue;
+   const lastPageStyle = classNames({
+      [style.btn]: true,
+      [style.next]: true,
+      [style.hidden]: numberPage === totalPages,
+
+   })
+
+   const listStyle = classNames({
+      [cName]: cName,
+      [style.list]: true,
+   })
+
+
+   useEffect(() => {
+      const updatePages = [];
+      for (let i = 1; i <= totalPages; i++) {
+
+         if (totalPages > COUNTER_PAGE) {
+            if (numberPage <= ((COUNTER_PAGE / 2) + 0.5)) {
+
+               if (i > COUNTER_PAGE - 1 && i !== totalPages) {
+                  continue;
+               }
+            }
+            else if (totalPages - (COUNTER_PAGE - 1) < numberPage) {
+               if (i !== 1 && totalPages - (COUNTER_PAGE - 1) >= i) {
+                  continue;
+               }
+            }
+            else {
+               if ((i !== 1 && numberPage - ((COUNTER_PAGE - 3) / 2) > i) || (numberPage + ((COUNTER_PAGE - 3) / 2) < i && i !== totalPages)) {
+                  continue;
+               }
             }
          }
 
-         else if (totalPages - (COUNTER_PAGE - 1) < numberPage) {
-            if (i !== 1 && totalPages - (COUNTER_PAGE - 1) >= i) {
-               continue;
-            }
-         }
-         else {
-            if ((i !== 1 && numberPage - ((COUNTER_PAGE - 3) / 2) > i) || (numberPage + ((COUNTER_PAGE - 3) / 2) < i && i !== totalPages)) {
-               continue;
-            }
-         }
+         updatePages[counter++] = (
+            <li
+               className={i === numberPage ? `${style.list_item} ${style.active}` : style.list_item}
+               key={i}
+               onClick={() => {
+                  dispatch(push(true))
+                  dispatch(setNumberPage(i))
+               }}
+            >
+               {i}
+            </li>
+         )
       }
 
-      pages[counter++] = (
-         <li
-            className={i === numberPage ? `${style.list_item} ${style.active}` : style.list_item}
-            key={i}
-            onClick={() => {
-               dispatch(push(true))
-               dispatch(setNumberPage(i))
-            }}
-         >
-            {i}
-         </li>
-      )
-   }
+      setPages(updatePages)
+   }, [totalPages, numberPage])
+
 
    return (
-      <ul className={cName ? `${style.list} ${cName}` : style.list}>
+      <ul className={listStyle}>
          <li
-            className={numberPage === 1 ? `${style.prev} ${style.btn} ${style.hidden}` : `${style.prev} ${style.btn}`}
+            className={firstPageStyle}
             onClick={() => dispatch(pageDecrement())}
          >
             <span>
@@ -64,7 +90,7 @@ function Pagination({ cName }) {
          {pages}
 
          <li
-            className={numberPage === totalPages ? `${style.next} ${style.btn} ${style.hidden}` : `${style.next} ${style.btn}`}
+            className={lastPageStyle}
             onClick={() => dispatch(pageIncrement())}
          >
             <span>
