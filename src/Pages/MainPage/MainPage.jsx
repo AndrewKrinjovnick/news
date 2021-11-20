@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import style from './MainPage.module.scss';
 import { lastNewsUa } from '../../api/sendRequest';
 import ArticlesList from '../../components/ArticlesList/ArticlesList';
@@ -16,18 +16,23 @@ function MainPage() {
    const [articles, setActicles] = useState([]);
    const [page, setPage] = useState(1);
    const [totalPages, setTotalPages] = useState();
-   const [getArticles, isArcticlesLoading, errorArticles] = useFetching(async () => {
+
+   const getArticlesCallBack = useCallback(async function () {
       const listActicles = await lastNewsUa(page, LIMIT);
-      setActicles([...articles, ...listActicles.articles]);
+      setActicles(preState => [...preState, ...listActicles.articles]);
       const searchResults = listActicles.totalResults;
       setTotalPages(countPages(searchResults, LIMIT));
-   });
+   }, [page])
+
+   const [getArticles, isArcticlesLoading, errorArticles] = useFetching(getArticlesCallBack);
+
+
 
    useObserver(() => setPage(page + 1), lastElem, isArcticlesLoading, page < totalPages)
 
    useEffect(() => {
       getArticles();
-   }, [page])
+   }, [page, getArticles])
 
    return (
       <>

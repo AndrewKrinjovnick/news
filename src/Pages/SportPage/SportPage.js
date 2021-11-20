@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react'
+import React, { useState, useEffect, memo, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams, useHistory } from 'react-router'
 import Header from '../../components/Header/Header'
@@ -31,10 +31,17 @@ function SportPage() {
    const { nameSport } = useParams();
    const currentCategory = nameSport === 'home' ? 'sport' : nameSport;
    const history = useHistory();
-   const [getMainArticle, isLoadingMainArticle, errorMainArticle] = useFetching(async () => {
+
+   const getMainArticleCallBack = useCallback(async () => {
       const response = await getTopArticle(currentCategory);
       setMainArticle(response.articles);
-   });
+   }, [currentCategory])
+
+   const [getMainArticle, isLoadingMainArticle, errorMainArticle] = useFetching(getMainArticleCallBack);
+
+   useEffect(() => {
+      getMainArticle();
+   }, [nameSport, getMainArticle])
 
    const [getSportArticles, isLoadingSportArticles, errorSportArticles] = useFetching(async () => {
       const listActicles = await getResultSearch(currentCategory, page, LIMIT, sortBy);
@@ -43,9 +50,7 @@ function SportPage() {
       dispatch(setTotalPages(sportArticlesResults, LIMIT));
    });
 
-   useEffect(() => {
-      getMainArticle();
-   }, [nameSport])
+
 
    usePagination(getSportArticles, [sortBy, nameSport]);
 

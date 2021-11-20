@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 import PropTypes from 'prop-types';
@@ -15,9 +15,9 @@ export const usePagination = (getArticles, dependencies = []) => {
    const sortBy = useSelector(state => state.page.sortBy);
    const history = useHistory();
 
-   function dontPush() {
+   const dontPush = useCallback(() => {
       dispatch(push(false))
-   }
+   }, [dispatch])
 
    useEffect(() => {
       window.addEventListener("popstate", dontPush);
@@ -28,7 +28,7 @@ export const usePagination = (getArticles, dependencies = []) => {
          dispatch(setNumberPage(1));
          window.removeEventListener("popstate", dontPush)
       }
-   }, [])
+   }, [dispatch, dontPush])
 
    useEffect(() => {
       const searchParams = new URLSearchParams(history.location.search);
@@ -38,15 +38,15 @@ export const usePagination = (getArticles, dependencies = []) => {
       }
 
       if (searchParams.has('q')) {
-         setSearchArticle(!searchArticle)
+         setSearchArticle(preState => !preState)
          dispatch(getSearchInput(searchParams.get('q')))
       }
 
       if (searchParams.has('sort')) {
          dispatch(sortArticles(searchParams.get('sort')))
       }
-
-   }, [history.location.search, ...dependencies])
+      //eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [history.location.search, ...dependencies, dispatch])
 
    useEffect(() => {
 
@@ -54,6 +54,7 @@ export const usePagination = (getArticles, dependencies = []) => {
          isInitialMountPush.current = false;
       } else {
          if (!isPush) return;
+
          const searchParams = new URLSearchParams();
 
          const params = {
@@ -71,7 +72,7 @@ export const usePagination = (getArticles, dependencies = []) => {
             search: searchParams.toString(),
          })
       }
-   }, [page]);
+   }, [page, history, isPush, searchValue, sortBy]);
 
    useEffect(() => {
       if (isInitialMountSearch.current) {
@@ -82,7 +83,7 @@ export const usePagination = (getArticles, dependencies = []) => {
             getArticles()
          }
       }
-   }, [searchArticle])
+   }, [searchArticle, getArticles, searchValue])
 }
 
 usePagination.propTypes = {

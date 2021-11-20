@@ -73,14 +73,17 @@ function Pagination({ cName }) {
       }
 
       setPages(updatePages)
-   }, [totalPages, numberPage])
+   }, [totalPages, numberPage, counter, dispatch])
 
 
    return (
       <ul className={listStyle}>
          <li
             className={firstPageStyle}
-            onClick={() => dispatch(pageDecrement())}
+            onClick={() => {
+               dispatch(push(true))
+               dispatch(pageDecrement())
+            }}
          >
             <span>
                &#8249;
@@ -91,7 +94,10 @@ function Pagination({ cName }) {
 
          <li
             className={lastPageStyle}
-            onClick={() => dispatch(pageIncrement())}
+            onClick={() => {
+               dispatch(push(true))
+               dispatch(pageIncrement())
+            }}
          >
             <span>
                &#8250;

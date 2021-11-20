@@ -13,5 +13,5 @@ export const useObserver = (callback, ref, isLoading, condition) => {
       };
       observer.current = new IntersectionObserver(callbackObserver);
       observer.current.observe(ref.current);
-   }, [isLoading])
+   }, [isLoading, callback, condition, ref])
 }

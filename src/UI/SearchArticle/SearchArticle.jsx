@@ -19,7 +19,7 @@ function SearchInput({ cName, initialValue = '', prompt, alertBottom = -75 }) {
 
    useEffect(() => {
       if (!searchValue) setSearchValue(initialValue);
-   }, [query])
+   }, [query, initialValue, searchValue])
 
    const getSearchValue = (e) => {
       setSearchValue(e.target.value);

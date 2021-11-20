@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import style from './WeatherPage.module.scss';
 import Header from '../../components/Header/Header'
 import { useFetching } from '../../hooks/useFetching';
@@ -13,14 +13,17 @@ function WeatherPage() {
    const [searchWeather, setSearchWeather] = useState('Kiev');
    const [tab, setTab] = useState('tab0');
    const [currentCityWeather, setCurrentCityWeather] = useState([]);
-   const [getWeather, isLoading, errorFetch] = useFetching(async () => {
+
+   const getWeatherCallBack = useCallback(async () => {
       const response = await getResultWeather(searchWeather);
       setCurrentCityWeather(response.forecast.forecastday);
-   });
+   }, [searchWeather])
+
+   const [getWeather, isLoading, errorFetch] = useFetching(getWeatherCallBack);
 
    useEffect(() => {
       getWeather();
-   }, [searchWeather])
+   }, [searchWeather, getWeather])
 
    return (
       <>

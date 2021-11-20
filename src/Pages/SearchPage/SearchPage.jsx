@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import style from './SearchPage.module.scss';
 import Header from '../../components/Header/Header';
@@ -19,12 +19,15 @@ function Search() {
    const page = useSelector(state => state.page.number);
    const searchValue = useSelector(state => state.search.query);
    const [articles, setActicles] = useState([]);
-   const [getArticles, isArcticlesLoading, errorArticles] = useFetching(async () => {
+
+   const getArticlesCallBack = useCallback(async () => {
       const listActicles = await getResultSearch(searchValue, page, LIMIT);
       setActicles(listActicles.articles);
       const searchResults = listActicles.totalResults;
       dispatch(setTotalPages(searchResults, LIMIT));
-   });
+   }, [page, searchValue, dispatch])
+
+   const [getArticles, isArcticlesLoading, errorArticles] = useFetching(getArticlesCallBack);
 
    usePagination(getArticles);
 
