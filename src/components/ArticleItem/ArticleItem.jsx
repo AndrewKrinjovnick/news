@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Image from '../../UI/Image';
 import style from './ArticleItem.module.scss'
 import { timeHasPassed } from '../../utils/date'
+import { baseUrlForImg } from '../../router';
 
 
 function ArticleItem({ cName = null, article, isTimeOpen = false }) {
@@ -43,7 +44,7 @@ function ArticleItem({ cName = null, article, isTimeOpen = false }) {
    if (isTimeOpen) {
       renderTimeOpen = (
          <div className={style.time}>
-            <Image className={style.time_img} src="/images/time.png" alt="time" />
+            <Image className={style.time_img} src={`${baseUrlForImg}time.png`} alt="time" />
             <p className={style.time_passed}>{timeHasPassed(Date.now() - new Date(article.publishedAt).getTime())}</p>
          </div>
       )

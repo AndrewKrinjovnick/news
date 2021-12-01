@@ -4,9 +4,9 @@ import { menuNames } from '../../data/SportMenuData/SportMenuData';
 import Image from '../../UI/Image';
 import ListItem from '../../UI/ListItem/ListItem';
 import style from './SportMenu.module.scss'
+import { baseUrlForImg } from '../../router';
 
 function SportMenu({ nameSport, openChosenCategory, isBurgetActive, closeOrOpenMenu }) {
-
    return (
       <div className={style.sport_menu}>
          <div className="container">
@@ -14,7 +14,7 @@ function SportMenu({ nameSport, openChosenCategory, isBurgetActive, closeOrOpenM
                <h2 className={style.sport_header}>
                   Sport
                </h2>
-               <Image className={style.img} src='/images/sport.png' alt='sport' />
+               <Image className={style.img} src={`${baseUrlForImg}sport.png`} alt='sport' />
             </div>
          </div>
          <div className={style.bottom_menu}>

@@ -6,6 +6,7 @@ import Image from '../Image';
 import WrongData from '../WrongData/WrongData';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSearchInput } from '../../store/actions';
+import { baseUrlForImg } from '../../router';
 
 let timeout;
 
@@ -88,7 +89,7 @@ function SearchInput({ cName, initialValue = '', prompt, alertBottom = -75 }) {
                   className={submit ? `${submit} ${style.submit}` : style.submit}
                   onClick={scan}
                >
-                  <Image className={img ? `${img} ${style.search_image}` : style.search_image} src={"/images/search.png"} alt={'search'} />
+                  <Image className={img ? `${img} ${style.search_image}` : style.search_image} src={`${baseUrlForImg}search.png`} alt={'search'} />
                </button>
             </div>
          </WrongData>

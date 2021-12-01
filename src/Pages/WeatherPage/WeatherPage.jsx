@@ -8,6 +8,7 @@ import Loader from '../../UI/Loader/Loader';
 import SearchInput from '../../UI/SearchInput/SearchInput';
 import Image from '../../UI/Image';
 import Footer from '../../components/Footer/Footer';
+import { baseUrlForImg } from '../../router';
 
 function WeatherPage() {
    const [searchWeather, setSearchWeather] = useState('Kiev');
@@ -44,7 +45,7 @@ function WeatherPage() {
                         ?
                         <div className={style.error}>
                            <h3>Could not find a forecast for your request</h3>
-                           <Image src={'/images/map.jpg'} alt="map" />
+                           <Image src={`${baseUrlForImg}map.jpg`} alt="map" />
                         </div>
                         :
                         <WeatherContent forecastWeather={currentCityWeather} tab={tab} tabEvent={setTab} />

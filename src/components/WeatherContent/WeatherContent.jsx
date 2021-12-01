@@ -4,6 +4,7 @@ import style from './WeatherContent.module.scss'
 import TabWeather from './TabWeather'
 import Image from '../../UI/Image'
 import { params, timesOfDay } from '../../data/Weather'
+import { baseUrlForImg } from '../../router'
 
 
 function ForecastContent({ weatherContent }) {
@@ -16,7 +17,7 @@ function ForecastContent({ weatherContent }) {
       }
       >
          <div className={style.time_day}>{weatherContent.time.slice(-5)}</div>
-         <Image src={`./images/${weatherContent.condition.icon.slice(20)}`} alt={weatherContent.condition.text} />
+         <Image src={`${baseUrlForImg}${weatherContent.condition.icon.slice(20)}`} alt={weatherContent.condition.text} />
          <div className={style.temp_c}>{weatherContent.temp_c ? `+${weatherContent.temp_c}` : weatherContent.temp_c}&deg;</div>
          <div className={style.feelslike_c}>{weatherContent.feelslike_c ? `+${weatherContent.feelslike_c}` : weatherContent.feelslike_c}&deg;</div>
          <div className={style.pressure_mb}>{weatherContent.pressure_mb}</div>

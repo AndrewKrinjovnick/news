@@ -3,6 +3,7 @@ import style from './SearchInput.module.scss'
 import Image from '../Image'
 import WrongData from '../WrongData/WrongData';
 import PropTypes from 'prop-types';
+import { baseUrlForImg } from '../../router';
 
 function SearchInput({ placeH, startValue, search }) {
     const [inputValue, setInputValue] = useState(startValue || '');
@@ -63,7 +64,7 @@ function SearchInput({ placeH, startValue, search }) {
                         className={style.submit}
                         onClick={submitSearch}
                     >
-                        <Image className={style.search_image} src={"./images/search.png"} alt='search' />
+                        <Image className={style.search_image} src={`${baseUrlForImg}search.png`} alt='search' />
                     </button>
 
                 </div>

@@ -27,3 +27,5 @@ export const routes = [
       component: MainPage
    }
 ]
+
+export const baseUrlForImg = '/images/'
