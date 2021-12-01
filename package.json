@@ -1,7 +1,6 @@
 {
   "name": "news",
   "version": "0.1.0",
-  "homepage": "https://andrewkrinjovnick.github.io/news/",
   "private": true,
   "dependencies": {
     "@loadable/component": "^5.15.0",

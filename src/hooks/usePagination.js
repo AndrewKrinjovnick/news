@@ -83,7 +83,8 @@ export const usePagination = (getArticles, dependencies = []) => {
             getArticles()
          }
       }
-   }, [searchArticle, getArticles, searchValue])
+      //eslint-disable-next-line react-hooks/exhaustive-deps
+   }, [searchArticle, searchValue])
 }
 
 usePagination.propTypes = {

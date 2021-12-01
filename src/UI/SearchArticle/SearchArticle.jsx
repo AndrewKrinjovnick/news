@@ -4,11 +4,13 @@ import { useHistory } from "react-router-dom";
 import style from './SearchArticle.module.scss';
 import Image from '../Image';
 import WrongData from '../WrongData/WrongData';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getSearchInput } from '../../store/actions';
 
 let timeout;
 
 function SearchInput({ cName, initialValue = '', prompt, alertBottom = -75 }) {
+   const dispatch = useDispatch();
    const query = useSelector(state => state.search.query)
    const { search, input, submit, img, wrapper } = cName;
    const [isOpen, setIsOpen] = useState(false);
@@ -34,6 +36,7 @@ function SearchInput({ cName, initialValue = '', prompt, alertBottom = -75 }) {
    const scan = (e) => {
       if (e.key === 'Enter' || e.type === 'click') {
          if (searchValue.trim()) {
+            dispatch(getSearchInput(searchValue));
             history.push({
                pathname: '/search',
                search: `?q=${searchValue}&page=${1}&sort=${sortBy}`
